@@ -5,49 +5,79 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Ski_equipment_rental_accounting_system"
         mc:Ignorable="d"
-        Title="Прокат горнолыжного снаряжения" 
-        Height="700" Width="1200"
+        Title="🎿 SkiRent Pro • Прокат горнолыжного снаряжения" 
+        Height="800" Width="1400"
         WindowStartupLocation="CenterScreen"
-        Background="#F5F5F5">
+        Background="#1E3A8A">
 
     <Window.Resources>
-        <!-- ЦВЕТОВАЯ СХЕМА -->
-        <SolidColorBrush x:Key="PrimaryColor" Color="#007ACC"/>
-        <SolidColorBrush x:Key="PrimaryDarkColor" Color="#005A9E"/>
-        <SolidColorBrush x:Key="SecondaryColor" Color="#2C3E50"/>
-        <SolidColorBrush x:Key="SecondaryDarkColor" Color="#1A252F"/>
-        <SolidColorBrush x:Key="BackgroundLight" Color="#F5F5F5"/>
-        <SolidColorBrush x:Key="CardBackground" Color="White"/>
-        <SolidColorBrush x:Key="BorderColor" Color="#E0E0E0"/>
-        <SolidColorBrush x:Key="TextDark" Color="#333333"/>
-        <SolidColorBrush x:Key="TextLight" Color="#666666"/>
-        <SolidColorBrush x:Key="SuccessColor" Color="#27AE60"/>
-        <SolidColorBrush x:Key="WarningColor" Color="#F39C12"/>
-        <SolidColorBrush x:Key="DangerColor" Color="#E74C3C"/>
+        <!-- ОБНОВЛЕННАЯ ЦВЕТОВАЯ СХЕМА -->
+        <SolidColorBrush x:Key="PrimaryColor" Color="#2563EB"/>
+        <SolidColorBrush x:Key="PrimaryLightColor" Color="#60A5FA"/>
+        <SolidColorBrush x:Key="PrimaryDarkColor" Color="#1D4ED8"/>
+        <SolidColorBrush x:Key="SecondaryColor" Color="#0F172A"/>
+        <SolidColorBrush x:Key="SecondaryLightColor" Color="#1E293B"/>
+        <SolidColorBrush x:Key="SecondaryDarkColor" Color="#020617"/>
+        <SolidColorBrush x:Key="AccentGreen" Color="#10B981"/>
+        <SolidColorBrush x:Key="AccentGreenDark" Color="#059669"/>
+        <SolidColorBrush x:Key="AccentOrange" Color="#F59E0B"/>
+        <SolidColorBrush x:Key="AccentOrangeDark" Color="#D97706"/>
+        <SolidColorBrush x:Key="AccentRed" Color="#EF4444"/>
+        <SolidColorBrush x:Key="BackgroundLight" Color="#F1F5F9"/>
+        <SolidColorBrush x:Key="CardBackground" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="BorderColor" Color="#E2E8F0"/>
+        <SolidColorBrush x:Key="TextDark" Color="#0F172A"/>
+        <SolidColorBrush x:Key="TextLight" Color="#64748B"/>
+        <SolidColorBrush x:Key="TextWhite" Color="#FFFFFF"/>
+
+        <!-- ГРАДИЕНТЫ ДЛЯ КНОПОК -->
+        <LinearGradientBrush x:Key="GreenGradient" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#10B981" Offset="0"/>
+            <GradientStop Color="#059669" Offset="1"/>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="OrangeGradient" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#F59E0B" Offset="0"/>
+            <GradientStop Color="#D97706" Offset="1"/>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="BlueGradient" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#3B82F6" Offset="0"/>
+            <GradientStop Color="#1D4ED8" Offset="1"/>
+        </LinearGradientBrush>
 
         <!-- СТИЛЬ ДЛЯ КНОПОК НАВИГАЦИИ -->
         <Style x:Key="NavButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="#E2E8F0"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
-            <Setter Property="Padding" Value="20,12"/>
-            <Setter Property="FontSize" Value="22"/>
-            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="Padding" Value="40,35"/>
+            <Setter Property="FontSize" Value="32"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border x:Name="border" 
                                 Background="{TemplateBinding Background}"
-                                BorderThickness="{TemplateBinding BorderThickness}">
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="Center"
-                                              Margin="{TemplateBinding Padding}"/>
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="0">
+                            <Grid>
+                                <Rectangle x:Name="activeIndicator" 
+                                           Width="8" 
+                                           HorizontalAlignment="Left" 
+                                           Fill="Transparent"/>
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalAlignment="Center"
+                                                  Margin="{TemplateBinding Padding}"/>
+                            </Grid>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#34495E"/>
+                                <Setter TargetName="border" Property="Background" Value="#1E293B"/>
+                                <Setter TargetName="activeIndicator" Property="Fill" Value="#3B82F6"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -57,60 +87,41 @@
 
         <!-- СТИЛЬ ДЛЯ АКТИВНОЙ КНОПКИ НАВИГАЦИИ -->
         <Style x:Key="NavButtonActiveStyle" TargetType="Button" BasedOn="{StaticResource NavButtonStyle}">
-            <Setter Property="Background" Value="#34495E"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="BorderThickness" Value="0,0,0,0"/>
-            <Setter Property="BorderBrush" Value="{StaticResource PrimaryColor}"/>
-        </Style>
-
-        <!-- СТИЛЬ ДЛЯ КНОПОК ДЕЙСТВИЙ -->
-        <Style x:Key="ActionButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="{StaticResource PrimaryColor}"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="BorderBrush" Value="{StaticResource PrimaryDarkColor}"/>
-            <Setter Property="Padding" Value="15,8"/>
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Background" Value="#1E293B"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border x:Name="border" 
                                 Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="4">
-                            <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"
-                                              Margin="{TemplateBinding Padding}"/>
+                                CornerRadius="0">
+                            <Grid>
+                                <Rectangle x:Name="activeIndicator" 
+                                           Width="8" 
+                                           HorizontalAlignment="Left" 
+                                           Fill="#3B82F6"/>
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalAlignment="Center"
+                                                  Margin="{TemplateBinding Padding}"/>
+                            </Grid>
                         </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="{StaticResource PrimaryDarkColor}"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#004578"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
 
-        <!-- СТИЛЬ ДЛЯ КНОПОК БЫСТРОГО ДЕЙСТВИЯ (в тулбаре) -->
-        <Style x:Key="QuickActionButtonStyle" TargetType="Button" BasedOn="{StaticResource ActionButtonStyle}">
-            <Setter Property="Padding" Value="12,9"/>
-            <Setter Property="Margin" Value="3"/>
-            <Setter Property="FontSize" Value="26"/>
-        </Style>
-
-        <!-- СТИЛЬ ДЛЯ ЗАГОЛОВКОВ РАЗДЕЛОВ -->
-        <Style x:Key="SectionHeaderStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="20"/>
+        <!-- СТИЛЬ ДЛЯ КНОПОК БЫСТРОГО ДЕЙСТВИЯ -->
+        <Style x:Key="QuickActionButtonStyle" TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="50,40"/>
+            <Setter Property="FontSize" Value="38"/>
             <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Foreground" Value="{StaticResource TextDark}"/>
-            <Setter Property="Margin" Value="0,0,0,15"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
 
         <!-- СТИЛЬ ДЛЯ КАРТОЧЕК -->
@@ -118,38 +129,53 @@
             <Setter Property="Background" Value="{StaticResource CardBackground}"/>
             <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="CornerRadius" Value="6"/>
-            <Setter Property="Padding" Value="20"/>
-            <Setter Property="Margin" Value="0,0,0,15"/>
+            <Setter Property="CornerRadius" Value="20"/>
+            <Setter Property="Padding" Value="30"/>
+            <Setter Property="Margin" Value="10"/>
         </Style>
 
-        <!-- СТИЛЬ ДЛЯ ТЕКСТОВЫХ ПОЛЕЙ -->
-        <Style x:Key="TextBoxStyle" TargetType="TextBox">
-            <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Padding" Value="8"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <!-- СТИЛЬ ДЛЯ ЗАГОЛОВКОВ -->
+        <Style x:Key="SectionHeaderStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="36"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="{StaticResource TextDark}"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="Margin" Value="0,0,0,30"/>
         </Style>
 
-        <!-- СТИЛЬ ДЛЯ ТАБЛИЦ -->
-        <Style x:Key="DataGridStyle" TargetType="DataGrid">
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="RowBackground" Value="White"/>
-            <Setter Property="AlternatingRowBackground" Value="#F9F9F9"/>
-            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
-            <Setter Property="HeadersVisibility" Value="Column"/>
-            <Setter Property="AutoGenerateColumns" Value="False"/>
-            <Setter Property="CanUserAddRows" Value="False"/>
-            <Setter Property="CanUserDeleteRows" Value="False"/>
-            <Setter Property="CanUserReorderColumns" Value="False"/>
-            <Setter Property="CanUserResizeRows" Value="False"/>
-            <Setter Property="CanUserSortColumns" Value="True"/>
-            <Setter Property="IsReadOnly" Value="True"/>
-            <Setter Property="SelectionMode" Value="Single"/>
-            <Setter Property="SelectionUnit" Value="FullRow"/>
+        <!-- СТИЛЬ ДЛЯ СТАТУС-БАРА -->
+        <Style x:Key="StatusBarStyle" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource SecondaryDarkColor}"/>
+            <Setter Property="BorderBrush" Value="#334155"/>
+            <Setter Property="BorderThickness" Value="0,0,0,2"/>
+        </Style>
+
+        <!-- СТИЛЬ ДЛЯ SCROLLBAR -->
+        <Style x:Key="ScrollBarStyle" TargetType="ScrollBar">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Width" Value="12"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ScrollBar">
+                        <Grid>
+                            <Track x:Name="PART_Track" IsDirectionReversed="true">
+                                <Track.Thumb>
+                                    <Thumb Background="#4B5563" 
+                                           BorderThickness="0" 
+                                           Margin="0,2,0,2">
+                                        <Thumb.Template>
+                                            <ControlTemplate TargetType="Thumb">
+                                                <Border Background="{TemplateBinding Background}" 
+                                                        CornerRadius="6"/>
+                                            </ControlTemplate>
+                                        </Thumb.Template>
+                                    </Thumb>
+                                </Track.Thumb>
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Window.Resources>
 
@@ -157,114 +183,108 @@
         <!-- ОСНОВНОЙ КОНТЕЙНЕР -->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <!-- Верхняя панель с быстрыми действиями -->
+            <!-- Верхняя панель (статус-бар) -->
             <RowDefinition Height="*"/>
             <!-- Основное содержимое -->
-            <RowDefinition Height="Auto"/>
-            <!-- Нижний статус-бар -->
+            <RowDefinition Height="180"/>
+            <!-- Нижняя панель быстрых действий -->
         </Grid.RowDefinitions>
 
-        <!-- Верхний СТАТУС-БАР -->
+        <!-- ВЕРХНИЙ СТАТУС-БАР -->
         <Border Grid.Row="0" 
-        Background="{StaticResource SecondaryDarkColor}" 
-        Padding="10,6" BorderThickness="10, 10, 0, 0">
+                Style="{StaticResource StatusBarStyle}" 
+                Padding="30,20">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- ИНФОРМАЦИЯ О ТЕКУЩЕМ РАЗДЕЛЕ -->
+                <!-- НАЗВАНИЕ И ТЕКУЩИЙ РАЗДЕЛ -->
                 <StackPanel Orientation="Horizontal" 
-                   VerticalAlignment="Center" Height="60">
-                    <TextBlock x:Name="txtCurrentSection" 
-                       Text="SkiRent" 
-                       Foreground="White" 
-                       VerticalAlignment="Center"
-                       FontSize="23"
-                       FontWeight="Bold"/>
+                           VerticalAlignment="Center">
+                    <Border Background="{StaticResource PrimaryColor}" 
+                            CornerRadius="12" 
+                            Width="60" 
+                            Height="60"
+                            Margin="0,0,20,0">
+                        <TextBlock Text="🎿" 
+                                   FontSize="36"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+                    </Border>
+                    <StackPanel>
+                        <TextBlock Text="SKIRENT PRO" 
+                                   Foreground="White" 
+                                   FontSize="28"
+                                   FontWeight="Bold"
+                                   FontFamily="Segoe UI"/>
+                        <TextBlock x:Name="txtCurrentSection" 
+                                   Text="Главная" 
+                                   Foreground="#94A3B8" 
+                                   FontSize="18"
+                                   FontWeight="SemiBold"
+                                   Margin="0,5,0,0"/>
+                    </StackPanel>
                 </StackPanel>
 
-                
-
-                <!-- ИНФОРМАЦИЯ О СИСТЕМЕ -->
+                <!-- ИНФОРМАЦИЯ О СИСТЕМЕ И ПОЛЬЗОВАТЕЛЕ -->
                 <StackPanel Grid.Column="1" 
-                   Orientation="Horizontal"
-                   VerticalAlignment="Center">
-                    <TextBlock Text="Версия: 1.0.0" 
-                       Foreground="#BDC3C7" 
-                       FontSize="11"
-                       Margin="0,0,15,0"/>
-                    <TextBlock Text="" 
-                       Foreground="#BDC3C7" 
-                       FontSize="11"
-                       Margin="0,0,5,0"/>
-                    <TextBlock x:Name="txtCurrentTime" 
-                       Text="12:45" 
-                       Foreground="White" 
-                       FontSize="11"/>
-                </StackPanel>
-                
-                <StackPanel Grid.Column="1" 
-                    Orientation="Vertical"
-                    HorizontalAlignment="Center">
-                    <Border Background="{StaticResource SecondaryDarkColor}" 
-                            Margin="10, 10, 10, 10" 
-                            Padding="12" 
-                            CornerRadius="4"
-                            VerticalAlignment="Bottom">
-                        <StackPanel>
-                            <TextBlock Text="СТАТУС СИСТЕМЫ" 
-                           Foreground="#BDC3C7" 
-                           FontSize="10"
-                           FontWeight="Bold"
-                           Margin="0,0,0,5"/>
-
-                            <StackPanel Orientation="Horizontal">
-                                <Ellipse Width="8" 
-                             Height="8" 
-                             Fill="{StaticResource SuccessColor}" 
-                             Margin="0,0,8,0"
-                             VerticalAlignment="Center"/>
-                                <TextBlock Text="Система активна" 
-                               Foreground="White" 
-                               FontSize="11"/>
+                           Orientation="Horizontal"
+                           VerticalAlignment="Center">
+                    <!-- СТАТУС СИСТЕМЫ -->
+                    <Border Background="#1E293B" 
+                            CornerRadius="10" 
+                            Padding="20,15"
+                            Margin="0,0,20,0">
+                        <StackPanel Orientation="Horizontal">
+                            <Ellipse Width="12" 
+                                     Height="12" 
+                                     Fill="{StaticResource AccentGreen}" 
+                                     Margin="0,0,12,0"
+                                     VerticalAlignment="Center"/>
+                            <StackPanel>
+                                <TextBlock Text="СИСТЕМА АКТИВНА" 
+                                           Foreground="#E2E8F0" 
+                                           FontSize="14"
+                                           FontWeight="Bold"/>
+                                <TextBlock x:Name="txtCurrentTime" 
+                                           Text="14:30:45" 
+                                           Foreground="#94A3B8" 
+                                           FontSize="13"
+                                           Margin="0,2,0,0"/>
                             </StackPanel>
+                        </StackPanel>
+                    </Border>
 
-                            <TextBlock Text="Сегодня: 12.03.2024" 
-                           Foreground="#BDC3C7" 
-                           FontSize="10"
-                           Margin="0,8,0,0"/>
-
-                            <TextBlock Text="Оператор: Иванов И.И." 
-                           Foreground="#BDC3C7" 
-                           FontSize="10"
-                           Margin="0,3,0,0"/>
+                    <!-- ПОЛЬЗОВАТЕЛЬ -->
+                    <Border Background="#1E293B" 
+                            CornerRadius="10" 
+                            Padding="20,15">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Background="{StaticResource PrimaryColor}" 
+                                    Width="40" 
+                                    Height="40"
+                                    CornerRadius="20">
+                                <TextBlock Text="ИИ" 
+                                           Foreground="White" 
+                                           FontWeight="Bold"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                            </Border>
+                            <StackPanel Margin="15,0,0,0">
+                                <TextBlock Text="Иван Иванов" 
+                                           Foreground="White" 
+                                           FontSize="16"
+                                           FontWeight="SemiBold"/>
+                                <TextBlock Text="Оператор проката" 
+                                           Foreground="#94A3B8" 
+                                           FontSize="13"/>
+                            </StackPanel>
                         </StackPanel>
                     </Border>
                 </StackPanel>
-                
             </Grid>
-
-        </Border>
-        <!-- ВЕРХНЯЯ ПАНЕЛЬ С БЫСТРЫМИ ДЕЙСТВИЯМИ -->
-        <Border Grid.Row="2" 
-                Background="{StaticResource PrimaryColor}" 
-                Padding="15,10" BorderThickness ="10, 0, 0, 10" Height="180">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="btnQuickNewRental" 
-                        Content="➕ НОВЫЙ" 
-                        Style="{StaticResource QuickActionButtonStyle}"
-                        Background="#27AE60"
-                        BorderBrush="#219653"
-                        ToolTip="Оформить новую аренду" Height="134" Width="514" Click="btnQuickNewRental_Click_1" />
-                <Button x:Name="btnQuickReturn" 
-                        Content="↩️ ВОЗВРАТ" 
-                        Style="{StaticResource QuickActionButtonStyle}"
-                        Background="#F39C12"
-                        BorderBrush="#E67E22"
-                        ToolTip="Быстрый возврат снаряжения" Height="134" Width="362" Click="btnQuickReturn_Click_1"/>
-            </StackPanel>
         </Border>
 
         <!-- ОСНОВНОЕ СОДЕРЖИМОЕ -->
@@ -272,77 +292,326 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="500"/>
                 <!-- ЛЕВАЯ ПАНЕЛЬ НАВИГАЦИИ -->
-                <ColumnDefinition Width="33*"/>
-                <ColumnDefinition Width="317*"/>
-                <!-- ЦЕНТРАЛЬНАЯ ОБЛАСТЬ КОНТЕНТА -->
+                <ColumnDefinition Width="*"/>
+                <!-- ЦЕНТРАЛЬНАЯ ОБЛАСТЬ -->
             </Grid.ColumnDefinitions>
 
-            <!-- ЛЕВАЯ ПАНЕЛЬ НАВИГАЦИИ -->
+            <!-- ЛЕВАЯ ПАНЕЛЬ НАВИГАЦИИ С ПРОКРУТКОЙ -->
             <Border Grid.Column="0" 
-                    Background="{StaticResource SecondaryColor}" 
-                    BorderBrush="{StaticResource SecondaryDarkColor}" 
-                    BorderThickness="10, 0, 0, 0">
-                <StackPanel>
+                    Background="{StaticResource SecondaryColor}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled"
+                              PanningMode="VerticalOnly"
+                              VerticalAlignment="Stretch">
+                    <ScrollViewer.Resources>
+                        <Style TargetType="ScrollBar" BasedOn="{StaticResource ScrollBarStyle}"/>
+                    </ScrollViewer.Resources>
 
-                    <!-- КНОПКИ НАВИГАЦИИ -->
-                    <StackPanel Margin="0,0,0,0">
+                    <StackPanel Margin="0,40,0,0">
+                        <!-- ЗАГОЛОВОК МЕНЮ -->
+                        <TextBlock Text="ОСНОВНОЕ МЕНЮ" 
+                                   Foreground="#64748B" 
+                                   FontSize="18"
+                                   FontWeight="Bold"
+                                   Margin="40,0,0,30"
+                                   FontFamily="Segoe UI"/>
 
-                        <Button x:Name="btnRentals" Height="100" Margin="20, 0, 0, 0"
-                                
-                                Content="⛷️ АРЕНДЫ"
+                        <!-- КНОПКИ НАВИГАЦИИ -->
+                        <Button x:Name="btnRentals" 
+                                Height="120"
+                                Content="⛷️  АРЕНДЫ"
                                 Style="{StaticResource NavButtonStyle}"
-                                Tag="Rentals" Click="btnRentals_Click"/>
+                                Tag="Rentals" 
+                                Click="btnRentals_Click"/>
 
-                        <Button x:Name="btnBookings" Height="100" Margin="20, 0, 0, 0"
-                                Content="📅 БРОНИРОВАНИЯ"
+                        <Button x:Name="btnBookings" 
+                                Height="120"
+                                Content="📅  БРОНИРОВАНИЯ"
                                 Style="{StaticResource NavButtonStyle}"
-                                Tag="Bookings" Click="btnBookings_Click" />
+                                Tag="Bookings" 
+                                Click="btnBookings_Click"/>
 
-                        <Button x:Name="btnClients" Height="100" Margin="20, 0, 0, 0"
-                                Content="👥 КЛИЕНТЫ"
+                        <Button x:Name="btnClients" 
+                                Height="120"
+                                Content="👥  КЛИЕНТЫ"
                                 Style="{StaticResource NavButtonStyle}"
-                                Tag="Clients" Click="btnClients_Click" />
+                                Tag="Clients" 
+                                Click="btnClients_Click"/>
 
-                        <Button x:Name="btnMaintenance" Height="100" Margin="20, 0, 0, 0"
-                                Content="🔧 ОБСЛУЖИВАНИЕ"
+                        <Button x:Name="btnMaintenance" 
+                                Height="120"
+                                Content="🔧  ОБСЛУЖИВАНИЕ"
                                 Style="{StaticResource NavButtonStyle}"
-                                Tag="Maintenance" Click="btnMaintenance_Click" />
+                                Tag="Maintenance" 
+                                Click="btnMaintenance_Click"/>
 
+                        <!-- ДОПОЛНИТЕЛЬНЫЕ РАЗДЕЛЫ (если нужно будет добавить) -->
+                        <!--
+                        <Button x:Name="btnEquipment" 
+                                Height="120"
+                                Content="🎿  СНАРЯЖЕНИЕ"
+                                Style="{StaticResource NavButtonStyle}"
+                                Tag="Equipment" 
+                                Click="btnEquipment_Click"/>
+                        
+                        <Button x:Name="btnReports" 
+                                Height="120"
+                                Content="📈  ОТЧЕТЫ"
+                                Style="{StaticResource NavButtonStyle}"
+                                Tag="Reports" 
+                                Click="btnReports_Click"/>
+                        
+                        <Button x:Name="btnSettings" 
+                                Height="120"
+                                Content="⚙️  НАСТРОЙКИ"
+                                Style="{StaticResource NavButtonStyle}"
+                                Tag="Settings" 
+                                Click="btnSettings_Click"/>
+                        -->
 
+                        <!-- СТАТИСТИКА ВНИЗУ -->
+                        <Border Style="{StaticResource CardStyle}" 
+                                Margin="40,60,40,40"
+                                Background="#1E293B">
+                            <StackPanel>
+                                <TextBlock Text="📈 СЕГОДНЯ" 
+                                           Foreground="#94A3B8" 
+                                           FontSize="16"
+                                           FontWeight="Bold"
+                                           Margin="0,0,0,15"/>
+
+                                <StackPanel Orientation="Horizontal" 
+                                           Margin="0,0,0,10">
+                                    <TextBlock Text="Аренд:" 
+                                               Foreground="#E2E8F0" 
+                                               FontSize="15"/>
+                                    <TextBlock Text="24" 
+                                               Foreground="{StaticResource PrimaryLightColor}" 
+                                               FontSize="16"
+                                               FontWeight="Bold"
+                                               Margin="10,0,0,0"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" 
+                                           Margin="0,0,0,10">
+                                    <TextBlock Text="Выручка:" 
+                                               Foreground="#E2E8F0" 
+                                               FontSize="15"/>
+                                    <TextBlock Text="42 800 ₽" 
+                                               Foreground="{StaticResource AccentGreen}" 
+                                               FontSize="16"
+                                               FontWeight="Bold"
+                                               Margin="10,0,0,0"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Свободно:" 
+                                               Foreground="#E2E8F0" 
+                                               FontSize="15"/>
+                                    <TextBlock Text="85%" 
+                                               Foreground="{StaticResource PrimaryLightColor}" 
+                                               FontSize="16"
+                                               FontWeight="Bold"
+                                               Margin="10,0,0,0"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- ДОПОЛНИТЕЛЬНАЯ ИНФОРМАЦИЯ (если нужно) -->
+                        <Border Background="#1E293B" 
+                                Margin="40,0,40,40"
+                                CornerRadius="15"
+                                Padding="20">
+                            <StackPanel>
+                                <TextBlock Text="ℹ️ СОВЕТ" 
+                                           Foreground="#94A3B8" 
+                                           FontSize="14"
+                                           FontWeight="Bold"
+                                           Margin="0,0,0,10"/>
+                                <TextBlock Text="Используйте свайпы вверх/вниз для прокрутки меню на планшете" 
+                                           Foreground="#CBD5E1" 
+                                           FontSize="13"
+                                           TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
                     </StackPanel>
-                </StackPanel>
+                </ScrollViewer>
             </Border>
 
             <!-- ЦЕНТРАЛЬНАЯ ОБЛАСТЬ КОНТЕНТА -->
             <Border Grid.Column="1" 
-                    Background="{StaticResource BackgroundLight}" 
-                    Padding="25" Grid.ColumnSpan="2">
-                <!-- ОБЛАСТЬ ДЛЯ ДИНАМИЧЕСКОЙ ЗАМЕНЫ КОНТЕНТА -->
-                <ContentControl x:Name="ContentArea">
-                    <!-- Здесь будут загружаться UserControl'ы -->
+                    Background="{StaticResource BackgroundLight}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" 
+                              HorizontalScrollBarVisibility="Disabled"
+                              Padding="40">
+                    <!-- ОБЛАСТЬ ДЛЯ ДИНАМИЧЕСКОЙ ЗАМЕНЫ КОНТЕНТА -->
+                    <ContentControl x:Name="ContentArea">
+                        <!-- ПРИВЕТСТВЕННЫЙ ЭКРАН -->
+                        <StackPanel VerticalAlignment="Center" 
+                                    HorizontalAlignment="Center"
+                                    MaxWidth="800">
+                            <!-- КРУПНЫЙ ЛОГОТИП -->
+                            <Border Background="White" 
+                                    CornerRadius="30" 
+                                    Width="180" 
+                                    Height="180"
+                                    Margin="0,0,0,40">
+                                <TextBlock Text="🎿" 
+                                           FontSize="100"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                            </Border>
 
-                    <!-- ЗАГРУЗОЧНОЕ СОСТОЯНИЕ (пока не загружен ни один раздел) -->
-                    <StackPanel VerticalAlignment="Center" 
-                                HorizontalAlignment="Center">
-                        <TextBlock Text="Добро пожаловать в SkiRent Pro" 
-                                   FontSize="24" 
-                                   FontWeight="Bold"
-                                   Foreground="{StaticResource TextDark}"
-                                   HorizontalAlignment="Center"
-                                   Margin="0,0,0,10"/>
-                        <TextBlock Text="Выберите раздел в левом меню для начала работы" 
-                                   FontSize="14" 
-                                   Foreground="{StaticResource TextLight}"
-                                   HorizontalAlignment="Center"
-                                   TextAlignment="Center"
-                                   MaxWidth="400"/>
-                    </StackPanel>
-                </ContentControl>
+                            <!-- ЗАГОЛОВОК --><!--
+                            <TextBlock Text="ДОБРО ПОЖАЛОВАТЬ В SKIRENT PRO" 
+                                       Style="{StaticResource SectionHeaderStyle}"
+                                       HorizontalAlignment="Center"
+                                       TextAlignment="Center"
+                                       Margin="0,0,0,20"/>
+
+                            --><!-- ПОДЗАГОЛОВОК --><!--
+                            <TextBlock Text="Профессиональная система учета проката горнолыжного снаряжения" 
+                                       Foreground="{StaticResource TextLight}"
+                                       FontSize="24"
+                                       TextAlignment="Center"
+                                       LineHeight="34"
+                                       Margin="0,0,0,60"/>-->
+                            <DataGrid x:Name="dataGrid" AutoGenerateColumns="True" Margin="10"/>
+
+                            <!-- ИНСТРУКЦИЯ ДЛЯ НАЧАЛА РАБОТЫ -->
+                            <Border Style="{StaticResource CardStyle}" 
+                                    Margin="0,0,0,30">
+                                <StackPanel>
+                                    <TextBlock Text="🚀 КАК НАЧАТЬ РАБОТУ" 
+                                               FontSize="28"
+                                               FontWeight="Bold"
+                                               Margin="0,0,0,25"/>
+
+                                    <StackPanel Orientation="Horizontal" 
+                                               Margin="0,0,0,20">
+                                        <Border Background="{StaticResource PrimaryColor}" 
+                                                Width="60" 
+                                                Height="60"
+                                                CornerRadius="30"
+                                                Margin="0,0,20,0">
+                                            <TextBlock Text="1" 
+                                                       Foreground="White" 
+                                                       FontSize="28"
+                                                       FontWeight="Bold"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"/>
+                                        </Border>
+                                        <TextBlock Text="Выберите раздел в левом меню" 
+                                                   Foreground="{StaticResource TextDark}"
+                                                   FontSize="22"
+                                                   VerticalAlignment="Center"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" 
+                                               Margin="0,0,0,20">
+                                        <Border Background="{StaticResource PrimaryColor}" 
+                                                Width="60" 
+                                                Height="60"
+                                                CornerRadius="30"
+                                                Margin="0,0,20,0">
+                                            <TextBlock Text="2" 
+                                                       Foreground="White" 
+                                                       FontSize="28"
+                                                       FontWeight="Bold"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"/>
+                                        </Border>
+                                        <TextBlock Text="Используйте большие кнопки внизу для быстрых действий" 
+                                                   Foreground="{StaticResource TextDark}"
+                                                   FontSize="22"
+                                                   VerticalAlignment="Center"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal">
+                                        <Border Background="{StaticResource PrimaryColor}" 
+                                                Width="60" 
+                                                Height="60"
+                                                CornerRadius="30"
+                                                Margin="0,0,20,0">
+                                            <TextBlock Text="3" 
+                                                       Foreground="White" 
+                                                       FontSize="28"
+                                                       FontWeight="Bold"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"/>
+                                        </Border>
+                                        <TextBlock Text="Для новой аренды нажмите зелёную кнопку 'НОВАЯ АРЕНДА'" 
+                                                   Foreground="{StaticResource TextDark}"
+                                                   FontSize="22"
+                                                   VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- СОВЕТ ПО ПРОКРУТКЕ -->
+                            <Border Background="#FEF3C7" 
+                                    BorderBrush="#FBBF24" 
+                                    BorderThickness="2"
+                                    CornerRadius="15"
+                                    Padding="25"
+                                    Margin="0,30,0,0">
+                                <StackPanel>
+                                    <TextBlock Text="📱 ПОДСКАЗКА ДЛЯ ПЛАНШЕТА" 
+                                               FontSize="22"
+                                               FontWeight="Bold"
+                                               Foreground="#92400E"
+                                               Margin="0,0,0,10"/>
+                                    <TextBlock Text="Левое меню можно прокручивать свайпом вверх/вниз. Все кнопки увеличены для удобного управления пальцами." 
+                                               Foreground="#92400E"
+                                               FontSize="20"
+                                               LineHeight="28"/>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ContentControl>
+                </ScrollViewer>
             </Border>
-
-           
         </Grid>
 
+        <!-- НИЖНЯЯ ПАНЕЛЬ БЫСТРЫХ ДЕЙСТВИЙ -->
+        <Border Grid.Row="2" 
+                Background="#0F172A"
+                BorderBrush="#1E293B"
+                BorderThickness="0,2,0,0">
+            <StackPanel Orientation="Horizontal" 
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center">
+                <!-- КНОПКА НОВОЙ АРЕНДЫ -->
+                <Button x:Name="btnQuickNewRental" 
+                        Content="➕ НОВАЯ АРЕНДА"
+                        Style="{StaticResource QuickActionButtonStyle}"
+                        Width="600"
+                        Height="140"
+                        Margin="0,0,40,0"
+                        Click="btnQuickNewRental_Click_1">
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#10B981" Offset="0"/>
+                            <GradientStop Color="#059669" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
 
+                <!-- КНОПКА БЫСТРОГО ВОЗВРАТА -->
+                <Button x:Name="btnQuickReturn" 
+                        Content="↩️ БЫСТРЫЙ ВОЗВРАТ"
+                        Style="{StaticResource QuickActionButtonStyle}"
+                        Width="600"
+                        Height="140"
+                        Click="btnQuickReturn_Click_1">
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#F59E0B" Offset="0"/>
+                            <GradientStop Color="#D97706" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+            </StackPanel>
+        </Border>
     </Grid>
 </Window>

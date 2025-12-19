@@ -1,8 +1,7 @@
-﻿using System;
-using System.Globalization;
-using System.Text.RegularExpressions;
+﻿using SQLitePCL;
+using System;
+using System.Data;
 using System.Windows;
-using System.Windows.Data;
 
 namespace Ski_equipment_rental_accounting_system
 {
@@ -13,16 +12,15 @@ namespace Ski_equipment_rental_accounting_system
     {
         public MainWindow()
         {
+
+
             InitializeComponent();
-        }
-        private void btnQuickNewRental_Click(object sender, RoutedEventArgs e)
-        {
 
+            DataBase.CreateTableClient();
         }
-
-        private void btnQuickReturn_Click(object sender, RoutedEventArgs e)
+        private void CreateAllTables()
         {
-                
+            
         }
 
         private void btnQuickNewRental_Click_1(object sender, RoutedEventArgs e)
@@ -48,7 +46,11 @@ namespace Ski_equipment_rental_accounting_system
 
         private void btnClients_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("База данных Зарегестрированных клиентов");
+            //MessageBox.Show("База данных Зарегестрированных клиентов");
+            DataTable clientsTable = DataBase.SelectTableClient();
+
+            // Показываем в DataGrid (добавь DataGrid в XAML)
+            dataGrid.ItemsSource = clientsTable.DefaultView;
 
         }
 
@@ -56,41 +58,6 @@ namespace Ski_equipment_rental_accounting_system
         {
             MessageBox.Show("База данных Поломанных снарежений");
 
-        }
-    }
-    public class EmojiExtractorConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is string text)
-            {
-                // Извлекаем эмодзи (первый символ или первые 2 символа)
-                var emojiMatch = Regex.Match(text, @"^[\p{So}\p{Cs}]+");
-                return emojiMatch.Success ? emojiMatch.Value : "📋";
-            }
-            return "📋";
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-    public class TextExtractorConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is string text)
-            {
-                // Удаляем эмодзи из начала строки
-                return Regex.Replace(text, @"^[\p{So}\p{Cs}]+", "").Trim();
-            }
-            return value;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
         }
     }
 }
