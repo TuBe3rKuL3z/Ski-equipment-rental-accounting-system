@@ -265,7 +265,8 @@
                             <Border Background="{StaticResource PrimaryColor}" 
                                     Width="40" 
                                     Height="40"
-                                    CornerRadius="20">
+                                    CornerRadius="20"
+                                    >
                                 <TextBlock Text="ИИ" 
                                            Foreground="White" 
                                            FontWeight="Bold"
@@ -344,6 +345,12 @@
                                 Style="{StaticResource NavButtonStyle}"
                                 Tag="Maintenance" 
                                 Click="btnMaintenance_Click"/>
+                        <Button x:Name="btnEquipment" 
+                                Height="120"
+                                Content="#  ОБОРУДОВАНИЕ"
+                                Style="{StaticResource NavButtonStyle}"
+                                Tag="Maintenance" 
+                                Click="btnEquipment_Click"/>      
 
                         <!-- ДОПОЛНИТЕЛЬНЫЕ РАЗДЕЛЫ (если нужно будет добавить) -->
                         <!--
@@ -446,128 +453,19 @@
                               Padding="40">
                     <!-- ОБЛАСТЬ ДЛЯ ДИНАМИЧЕСКОЙ ЗАМЕНЫ КОНТЕНТА -->
                     <ContentControl x:Name="ContentArea">
-                        <!-- ПРИВЕТСТВЕННЫЙ ЭКРАН -->
-                        <StackPanel VerticalAlignment="Center" 
-                                    HorizontalAlignment="Center"
-                                    MaxWidth="800">
-                            <!-- КРУПНЫЙ ЛОГОТИП -->
+                                <StackPanel VerticalAlignment="Center" 
+                                        HorizontalAlignment="Center"
+                                        MaxWidth="800">
                             <Border Background="White" 
                                     CornerRadius="30" 
-                                    Width="180" 
-                                    Height="180"
+                                    Width="600" 
+                                    Height="350"
                                     Margin="0,0,0,40">
-                                <TextBlock Text="🎿" 
-                                           FontSize="100"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"/>
-                            </Border>
-
-                            <!-- ЗАГОЛОВОК --><!--
-                            <TextBlock Text="ДОБРО ПОЖАЛОВАТЬ В SKIRENT PRO" 
-                                       Style="{StaticResource SectionHeaderStyle}"
-                                       HorizontalAlignment="Center"
-                                       TextAlignment="Center"
-                                       Margin="0,0,0,20"/>
-
-                            --><!-- ПОДЗАГОЛОВОК --><!--
-                            <TextBlock Text="Профессиональная система учета проката горнолыжного снаряжения" 
-                                       Foreground="{StaticResource TextLight}"
-                                       FontSize="24"
-                                       TextAlignment="Center"
-                                       LineHeight="34"
-                                       Margin="0,0,0,60"/>-->
-                            <DataGrid x:Name="dataGrid" AutoGenerateColumns="True" Margin="10"/>
-
-                            <!-- ИНСТРУКЦИЯ ДЛЯ НАЧАЛА РАБОТЫ -->
-                            <Border Style="{StaticResource CardStyle}" 
-                                    Margin="0,0,0,30">
-                                <StackPanel>
-                                    <TextBlock Text="🚀 КАК НАЧАТЬ РАБОТУ" 
-                                               FontSize="28"
-                                               FontWeight="Bold"
-                                               Margin="0,0,0,25"/>
-
-                                    <StackPanel Orientation="Horizontal" 
-                                               Margin="0,0,0,20">
-                                        <Border Background="{StaticResource PrimaryColor}" 
-                                                Width="60" 
-                                                Height="60"
-                                                CornerRadius="30"
-                                                Margin="0,0,20,0">
-                                            <TextBlock Text="1" 
-                                                       Foreground="White" 
-                                                       FontSize="28"
-                                                       FontWeight="Bold"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"/>
-                                        </Border>
-                                        <TextBlock Text="Выберите раздел в левом меню" 
-                                                   Foreground="{StaticResource TextDark}"
-                                                   FontSize="22"
-                                                   VerticalAlignment="Center"/>
-                                    </StackPanel>
-
-                                    <StackPanel Orientation="Horizontal" 
-                                               Margin="0,0,0,20">
-                                        <Border Background="{StaticResource PrimaryColor}" 
-                                                Width="60" 
-                                                Height="60"
-                                                CornerRadius="30"
-                                                Margin="0,0,20,0">
-                                            <TextBlock Text="2" 
-                                                       Foreground="White" 
-                                                       FontSize="28"
-                                                       FontWeight="Bold"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"/>
-                                        </Border>
-                                        <TextBlock Text="Используйте большие кнопки внизу для быстрых действий" 
-                                                   Foreground="{StaticResource TextDark}"
-                                                   FontSize="22"
-                                                   VerticalAlignment="Center"/>
-                                    </StackPanel>
-
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Background="{StaticResource PrimaryColor}" 
-                                                Width="60" 
-                                                Height="60"
-                                                CornerRadius="30"
-                                                Margin="0,0,20,0">
-                                            <TextBlock Text="3" 
-                                                       Foreground="White" 
-                                                       FontSize="28"
-                                                       FontWeight="Bold"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"/>
-                                        </Border>
-                                        <TextBlock Text="Для новой аренды нажмите зелёную кнопку 'НОВАЯ АРЕНДА'" 
-                                                   Foreground="{StaticResource TextDark}"
-                                                   FontSize="22"
-                                                   VerticalAlignment="Center"/>
-                                    </StackPanel>
-                                </StackPanel>
-                            </Border>
-
-                            <!-- СОВЕТ ПО ПРОКРУТКЕ -->
-                            <Border Background="#FEF3C7" 
-                                    BorderBrush="#FBBF24" 
-                                    BorderThickness="2"
-                                    CornerRadius="15"
-                                    Padding="25"
-                                    Margin="0,30,0,0">
-                                <StackPanel>
-                                    <TextBlock Text="📱 ПОДСКАЗКА ДЛЯ ПЛАНШЕТА" 
-                                               FontSize="22"
-                                               FontWeight="Bold"
-                                               Foreground="#92400E"
-                                               Margin="0,0,0,10"/>
-                                    <TextBlock Text="Левое меню можно прокручивать свайпом вверх/вниз. Все кнопки увеличены для удобного управления пальцами." 
-                                               Foreground="#92400E"
-                                               FontSize="20"
-                                               LineHeight="28"/>
-                                </StackPanel>
+                                <DataGrid x:Name="dataGrid" ItemsSource="{Binding Users}" AutoGenerateColumns="True" SelectionChanged="DataGrid_SelectionChanged" />
                             </Border>
                         </StackPanel>
+                        
+
                     </ContentControl>
                 </ScrollViewer>
             </Border>

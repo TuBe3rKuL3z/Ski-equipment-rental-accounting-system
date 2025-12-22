@@ -1,5 +1,4 @@
-﻿using SQLitePCL;
-using System;
+﻿using System;
 using System.Data;
 using System.Windows;
 
@@ -12,52 +11,85 @@ namespace Ski_equipment_rental_accounting_system
     {
         public MainWindow()
         {
-
-
             InitializeComponent();
 
-            DataBase.CreateTableClient();
-        }
-        private void CreateAllTables()
-        {
-            
+            DataBase.CreateAllTables();
         }
 
         private void btnQuickNewRental_Click_1(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Создание нового комплекта Аренды, для Андрея");
+            string firstName = "Альберт";
+            string lastName = "Кубанов";
+            string secondName = "Азрет-Алиевич";
+            string document = "Паспорт";
+            string phoneNumber = "1234567890";
+            DataBase.InsertTableClient(firstName, lastName, secondName, document, phoneNumber);
+            DataBase.SelectTableClient();
         }
 
         private void btnQuickReturn_Click_1(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Возврат комплекта оборудования, от Андрея");
+            try
+            {
+                // Проверяем, есть ли выбранная строка
+                if (dataGrid.SelectedItem == null)
+                {
+                    MessageBox.Show("Выберите запись для удаления!");
+                    return;
+                }
+
+                // Получаем DataRowView из выбранного элемента
+                DataRowView selectedRow = (DataRowView)dataGrid.SelectedItem;
+                int id = Convert.ToInt32(selectedRow["Id"]);
+                string name = selectedRow["FirstName"]?.ToString() ?? "Неизвестный";
+
+                // Подтверждение удаления
+                var result = MessageBox.Show($"Удалить клиента '{name}' (ID: {id})?",
+                                            "Подтверждение удаления",
+                                            MessageBoxButton.YesNo,
+                                            MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    DataBase.DeleteTableClient(id);
+                    MessageBox.Show("Клиент успешно удален!");
+
+                    // Обновляем таблицу
+                    btnClients_Click(null, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка удаления: {ex.Message}");
+            }
         }
 
         private void btnRentals_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("База данных Арендованных комплектов");
+
         }
 
         private void btnBookings_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("База данных Забронированных комплектов");
-
         }
 
         private void btnClients_Click(object sender, RoutedEventArgs e)
         {
-            //MessageBox.Show("База данных Зарегестрированных клиентов");
-            DataTable clientsTable = DataBase.SelectTableClient();
-
-            // Показываем в DataGrid (добавь DataGrid в XAML)
-            dataGrid.ItemsSource = clientsTable.DefaultView;
-
+            DataTable rentalsTable = DataBase.SelectTableClient();
+            dataGrid.ItemsSource = rentalsTable.DefaultView;
         }
 
         private void btnMaintenance_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("База данных Поломанных снарежений");
+        }
+        private void btnEquipment_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void DataGrid_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
 
         }
+
     }
 }

@@ -1,3 +1,10 @@
 <Solution>
-  <Project Path="Ski-equipment-rental-accounting-system/Ski-equipment-rental-accounting-system.csproj" Id="5fb101fe-43e1-4660-9dec-729f2cf9f799" />
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+  </Configurations>
+  <Project Path="Ski-equipment-rental-accounting-system/Ski-equipment-rental-accounting-system.csproj" Id="5fb101fe-43e1-4660-9dec-729f2cf9f799">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="SkiRentUnitTest/SkiRentUnitTest.csproj" Id="911dfe89-b07d-444c-9336-45ea74c2545a" />
 </Solution>
