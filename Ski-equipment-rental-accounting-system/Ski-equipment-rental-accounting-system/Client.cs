@@ -4,15 +4,15 @@ using System.Runtime.CompilerServices;
 
 namespace Ski_equipment_rental_accounting_system
 {
-    public class Client
+    public class Client : INotifyPropertyChanged
     {
         private int id;
         private string lastName;
         private string firstName;
         private string secondName;
-        private string documentType;
         private string documentNumber;
         private string phoneNumber;
+        private DocumentType documentType; // Изменяем на Enum
         private DateTime registrationDate;
 
         public int Id
@@ -21,7 +21,7 @@ namespace Ski_equipment_rental_accounting_system
             set { id = value; OnPropertyChanged(); }
         }
 
-        //Фамилия
+        // Фамилия
         public string LastName
         {
             get => lastName;
@@ -35,25 +35,24 @@ namespace Ski_equipment_rental_accounting_system
             set { firstName = value; OnPropertyChanged(); }
         }
 
-        //Отчество
+        // Отчество
         public string SecondName
         {
             get => secondName;
             set { secondName = value; OnPropertyChanged(); }
         }
 
-        //Полное ФИО
+        // Полное ФИО
         public string FullName => $"{LastName} {FirstName} {SecondName}";
 
-        //Тип документа: Passport, InternationalPassport, DriverLicense
-
-        public string DocumentType
+        // Тип документа (используем Enum)
+        public DocumentType DocumentType
         {
             get => documentType;
             set { documentType = value; OnPropertyChanged(); }
         }
 
-        //Номер документа
+        // Номер документа
         public string DocumentNumber
         {
             get => documentNumber;
@@ -63,21 +62,21 @@ namespace Ski_equipment_rental_accounting_system
         // Полные данные документа
         public string DocumentInfo => $"{DocumentType}: {DocumentNumber}";
 
-        //Номер телефона
+        // Номер телефона
         public string PhoneNumber
         {
             get => phoneNumber;
             set { phoneNumber = value; OnPropertyChanged(); }
         }
 
-        //Дата регистрации клиента в системе
+        // Дата регистрации
         public DateTime RegistrationDate
         {
             get => registrationDate;
             set { registrationDate = value; OnPropertyChanged(); }
         }
 
-        //Количество активных аренд у клиента
+        // Количество активных аренд
         public int ActiveRentalsCount { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -87,7 +86,7 @@ namespace Ski_equipment_rental_accounting_system
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        //Валидация данных клиента
+        // Валидация данных клиента
         public (bool IsValid, string ErrorMessage) Validate()
         {
             if (string.IsNullOrWhiteSpace(LastName))
@@ -99,23 +98,25 @@ namespace Ski_equipment_rental_accounting_system
             if (string.IsNullOrWhiteSpace(SecondName))
                 return (false, "Отчество обязательно для заполнения");
 
-            if (string.IsNullOrWhiteSpace(DocumentType))
-                return (false, "Тип документа обязателен для заполнения");
-
             if (string.IsNullOrWhiteSpace(DocumentNumber))
                 return (false, "Номер документа обязателен для заполнения");
 
             if (DocumentNumber.Length < 3)
                 return (false, "Номер документа слишком короткий");
 
-            // Валидация номера телефона (опционально)
             if (!string.IsNullOrWhiteSpace(PhoneNumber) && PhoneNumber.Length < 10)
                 return (false, "Номер телефона должен содержать минимум 10 цифр");
 
             return (true, string.Empty);
         }
 
-        //Создание клиента из DataRow
+        // Конвертация в строку для отладки
+        public override string ToString()
+        {
+            return $"{FullName} | {DocumentInfo} | {PhoneNumber}";
+        }
+
+        // Создание клиента из DataRow
         public static Client FromDataRow(System.Data.DataRow row)
         {
             return new Client
@@ -124,26 +125,11 @@ namespace Ski_equipment_rental_accounting_system
                 LastName = row["LastName"].ToString(),
                 FirstName = row["FirstName"].ToString(),
                 SecondName = row["SecondName"].ToString(),
-                DocumentNumber = row["Document"].ToString(),
+                DocumentType = (DocumentType)Convert.ToInt32(row["DocumentType"]), // Получаем Enum из БД
+                DocumentNumber = row["DocumentNumber"].ToString(),
                 PhoneNumber = row["PhoneNumber"]?.ToString() ?? string.Empty,
-                RegistrationDate = DateTime.Now
+                RegistrationDate = DateTime.Parse(row["RegistrationDate"].ToString())
             };
         }
-
-        //Преобразование в строку для отладки
-        public override string ToString()
-        {
-            return $"{FullName} | {DocumentInfo} | {PhoneNumber}";
-        }
-    }
-
-    //Типы документов, удостоверяющих личность
-    public static class DocumentTypes
-    {
-        public const string Passport = "Паспорт";
-        public const string InternationalPassport = "Загранпаспорт";
-        public const string DriverLicense = "Водительское удостоверение";
-
-        public static string[] GetAll() => new[] { Passport, InternationalPassport, DriverLicense };
     }
 }

@@ -256,6 +256,83 @@
                             </StackPanel>
                         </StackPanel>
                     </Border>
+                    <!-- НОВЫЕ КНОПКИ -->
+                    <StackPanel Orientation="Horizontal" Margin="0,0,20,0">
+                        <Button x:Name="btnSettings" 
+                Content="⚙️" 
+                Width="50" 
+                Height="50"
+                Background="Transparent"
+                BorderThickness="0"
+                Foreground="#94A3B8"
+                FontSize="20"
+                ToolTip="Настройки"
+                Click="btnSettings_Click"
+                Cursor="Hand"
+                Margin="0,0,10,0">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="border" 
+                                        Background="Transparent" 
+                                        CornerRadius="25"
+                                        Width="50" 
+                                        Height="50">
+                                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                      VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="border" Property="Background" Value="#1E293B"/>
+                                                        <Setter Property="Foreground" Value="#3B82F6"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+
+                        <Button x:Name="btnDeleteRow" 
+                Content="🗑️" 
+                Width="50" 
+                Height="50"
+                Background="Transparent"
+                BorderThickness="0"
+                Foreground="#EF4444"
+                FontSize="20"
+                ToolTip="Удалить выбранное"
+                Click="btnDeleteRow_Click"
+                Cursor="Hand">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="border" 
+                                        Background="Transparent" 
+                                        CornerRadius="25"
+                                        Width="50" 
+                                        Height="50">
+                                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                      VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="border" Property="Background" Value="#1E293B"/>
+                                                        <Setter Property="Foreground" Value="#DC2626"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </StackPanel>
 
                     <!-- ПОЛЬЗОВАТЕЛЬ -->
                     <Border Background="#1E293B" 
@@ -481,11 +558,11 @@
                        VerticalAlignment="Center">
                 <!-- КНОПКА НОВОЙ АРЕНДЫ -->
                 <Button x:Name="btnQuickNewRental" 
-                        Content="➕ НОВАЯ АРЕНДА"
+                        Content="➕ НОВАЯ"
                         Style="{StaticResource QuickActionButtonStyle}"
                         Width="600"
                         Height="140"
-                        Margin="0,0,40,0"
+                        Margin="-40,0,70,0"
                         Click="btnQuickNewRental_Click_1">
                     <Button.Background>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -497,10 +574,11 @@
 
                 <!-- КНОПКА БЫСТРОГО ВОЗВРАТА -->
                 <Button x:Name="btnQuickReturn" 
-                        Content="↩️ БЫСТРЫЙ ВОЗВРАТ"
+                        Content="↩️ ВОЗВРАТ"
                         Style="{StaticResource QuickActionButtonStyle}"
                         Width="600"
                         Height="140"
+                        Margin="0,0,-40,0"
                         Click="btnQuickReturn_Click_1">
                     <Button.Background>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
