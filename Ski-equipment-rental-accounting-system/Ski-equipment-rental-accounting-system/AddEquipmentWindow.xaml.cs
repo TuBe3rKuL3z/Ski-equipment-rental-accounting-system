@@ -23,5 +23,10 @@ namespace Ski_equipment_rental_accounting_system
         {
             InitializeComponent();
         }
+
+        private void txtDailyPrice_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+
+        }
     }
 }

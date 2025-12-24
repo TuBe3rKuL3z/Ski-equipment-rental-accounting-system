@@ -4,6 +4,9 @@ using System.Runtime.CompilerServices;
 
 namespace Ski_equipment_rental_accounting_system
 {
+    /// <summary>
+    /// Класс, представляющий аренду оборудования
+    /// </summary>
     public class Rental : INotifyPropertyChanged
     {
         private int id;
@@ -17,82 +20,108 @@ namespace Ski_equipment_rental_accounting_system
         private PaymentStatus paymentStatus;
         private PaymentMethod paymentMethod;
 
+        /// <summary>
+        /// Уникальный идентификатор аренды
+        /// </summary>
         public int Id
         {
             get => id;
             set { id = value; OnPropertyChanged(); }
         }
 
-        // ID клиента
+        /// <summary>
+        /// Идентификатор клиента
+        /// </summary>
         public int ClientId
         {
             get => clientId;
             set { clientId = value; OnPropertyChanged(); }
         }
 
-        // ID оборудования
+        /// <summary>
+        /// Идентификатор оборудования
+        /// </summary>
         public int EquipmentId
         {
             get => equipmentId;
             set { equipmentId = value; OnPropertyChanged(); }
         }
 
-        // Дата начала аренды
+        /// <summary>
+        /// Дата начала аренды
+        /// </summary>
         public DateTime StartDate
         {
             get => startDate;
             set { startDate = value; OnPropertyChanged(); }
         }
 
-        // Дата окончания аренды
+        /// <summary>
+        /// Дата окончания аренды
+        /// </summary>
         public DateTime EndDate
         {
             get => endDate;
             set { endDate = value; OnPropertyChanged(); }
         }
 
-        // Общая стоимость
+        /// <summary>
+        /// Общая стоимость аренды
+        /// </summary>
         public decimal TotalPrice
         {
             get => totalPrice;
             set { totalPrice = value; OnPropertyChanged(); }
         }
 
-        // Статус аренды
+        /// <summary>
+        /// Статус аренды
+        /// </summary>
         public RentalStatus Status
         {
             get => status;
             set { status = value; OnPropertyChanged(); }
         }
 
-        // Фактическая дата возврата
+        /// <summary>
+        /// Фактическая дата возврата оборудования
+        /// </summary>
         public DateTime? ActualReturnDate
         {
             get => actualReturnDate;
             set { actualReturnDate = value; OnPropertyChanged(); }
         }
 
-        // Статус оплаты
+        /// <summary>
+        /// Статус оплаты
+        /// </summary>
         public PaymentStatus PaymentStatus
         {
             get => paymentStatus;
             set { paymentStatus = value; OnPropertyChanged(); }
         }
 
-        // Способ оплаты
+        /// <summary>
+        /// Способ оплаты
+        /// </summary>
         public PaymentMethod PaymentMethod
         {
             get => paymentMethod;
             set { paymentMethod = value; OnPropertyChanged(); }
         }
 
-        // Количество дней аренды
+        /// <summary>
+        /// Количество дней аренды
+        /// </summary>
         public int RentalDays
         {
             get => (int)(EndDate - StartDate).TotalDays;
         }
 
-        // Проверка просрочки
+        /// <summary>
+        /// Проверяет, просрочена ли аренда
+        /// </summary>
+        /// <returns>true, если аренда просрочена, иначе false</returns>
         public bool IsOverdue()
         {
             if (Status == RentalStatus.Active && DateTime.Now > EndDate)
@@ -103,28 +132,45 @@ namespace Ski_equipment_rental_accounting_system
             return false;
         }
 
-        // Расчет общей стоимости
+        /// <summary>
+        /// Рассчитывает общую стоимость аренды
+        /// </summary>
+        /// <param name="dailyPrice">Стоимость аренды за сутки</param>
+        /// <returns>Общая стоимость аренды</returns>
         public decimal CalculateTotalPrice(decimal dailyPrice)
         {
             TotalPrice = dailyPrice * RentalDays;
             return TotalPrice;
         }
 
-        // Закрытие аренды
+        /// <summary>
+        /// Закрывает аренду с указанием даты возврата
+        /// </summary>
+        /// <param name="returnDate">Дата фактического возврата оборудования</param>
         public void CloseRental(DateTime returnDate)
         {
             ActualReturnDate = returnDate;
             Status = RentalStatus.Completed;
         }
 
+        /// <summary>
+        /// Событие, возникающее при изменении свойства
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Вызывает событие PropertyChanged
+        /// </summary>
+        /// <param name="propertyName">Имя изменившегося свойства</param>
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        // Валидация аренды
+        /// <summary>
+        /// Проверяет корректность данных аренды
+        /// </summary>
+        /// <returns>Кортеж с результатом валидации и сообщением об ошибке</returns>
         public (bool IsValid, string ErrorMessage) Validate()
         {
             if (StartDate >= EndDate)
@@ -136,7 +182,11 @@ namespace Ski_equipment_rental_accounting_system
             return (true, string.Empty);
         }
 
-        // Создание из DataRow
+        /// <summary>
+        /// Создает объект Rental из строки данных DataRow
+        /// </summary>
+        /// <param name="row">Строка данных из базы данных</param>
+        /// <returns>Объект Rental</returns>
         public static Rental FromDataRow(System.Data.DataRow row)
         {
             return new Rental

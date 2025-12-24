@@ -2,94 +2,152 @@
 
 namespace Ski_equipment_rental_accounting_system
 {
-    //Все перечисления системы учета аренды горнолыжного снаряжения
+    /// <summary>
+    /// Все перечисления системы учета аренды горнолыжного снаряжения
+    /// </summary>
 
-    //Типы горнолыжного снаряжения
+    /// <summary>
+    /// Типы горнолыжного снаряжения
+    /// </summary>
     public enum EquipmentType
     {
-        //Лыжи
+        /// <summary>
+        /// Лыжи
+        /// </summary>
         Skis = 1,
 
-        //Ботинки лыжные
+        /// <summary>
+        /// Ботинки лыжные
+        /// </summary>
         BootsSkis = 2,
 
-        /// <summary>Сноуборд</summary>
+        /// <summary>
+        /// Сноуборд
+        /// </summary>
         Snowboard = 3,
 
-        //Ботинки для сноуборда
+        /// <summary>
+        /// Ботинки для сноуборда
+        /// </summary>
         BootsSnowboard = 4,
 
-        //Шлем
+        /// <summary>
+        /// Шлем
+        /// </summary>
         Helmet = 5,
 
-        //Костюм
+        /// <summary>
+        /// Костюм
+        /// </summary>
         Suit = 6,
 
-        //Палки лыжные>
+        /// <summary>
+        /// Палки лыжные
+        /// </summary>
         SkiPoles = 7,
 
-        //Очки
+        /// <summary>
+        /// Очки
+        /// </summary>
         Goggles = 8
     }
 
-    //Статусы оборудования
+    /// <summary>
+    /// Статусы оборудования
+    /// </summary>
     public enum EquipmentStatus
     {
-        //Свободно
+        /// <summary>
+        /// Свободно для аренды
+        /// </summary>
         Available = 1,
 
-        //Арендовано
+        /// <summary>
+        /// Арендовано клиентом
+        /// </summary>
         Rented = 2,
 
-        //На обслуживании
+        /// <summary>
+        /// На обслуживании/ремонте
+        /// </summary>
         UnderMaintenance = 3,
 
-        //Списано/неисправно
+        /// <summary>
+        /// Списано/неисправно
+        /// </summary>
         OutOfService = 4
     }
 
-    //Статусы аренды
+    /// <summary>
+    /// Статусы аренды
+    /// </summary>
     public enum RentalStatus
     {
-        //Активная аренда
+        /// <summary>
+        /// Активная аренда
+        /// </summary>
         Active = 1,
 
-        //Завершена
+        /// <summary>
+        /// Завершена
+        /// </summary>
         Completed = 2,
 
-        //Просрочена
+        /// <summary>
+        /// Просрочена
+        /// </summary>
         Overdue = 3,
 
-        //Отменена
+        /// <summary>
+        /// Отменена
+        /// </summary>
         Cancelled = 4
     }
 
-    //Типы документов, удостоверяющих личность
+    /// <summary>
+    /// Типы документов, удостоверяющих личность
+    /// </summary>
     public enum DocumentType
     {
-        //Паспорт РФ
+        /// <summary>
+        /// Паспорт РФ
+        /// </summary>
         Passport = 1,
 
-        //Загранпаспорт
+        /// <summary>
+        /// Загранпаспорт
+        /// </summary>
         InternationalPassport = 2,
 
-        //Водительское удостоверение
+        /// <summary>
+        /// Водительское удостоверение
+        /// </summary>
         DriverLicense = 3
     }
 
-    //Статусы бронирования (если нужны)
+    /// <summary>
+    /// Статусы бронирования
+    /// </summary>
     public enum BookingStatus
     {
-        /// <summary>Подтверждена</summary>
+        /// <summary>
+        /// Подтверждена
+        /// </summary>
         Confirmed = 1,
 
-        /// <summary>Ожидает подтверждения</summary>
+        /// <summary>
+        /// Ожидает подтверждения
+        /// </summary>
         Pending = 2,
 
-        /// <summary>Отменена</summary>
+        /// <summary>
+        /// Отменена
+        /// </summary>
         Cancelled = 3,
 
-        /// <summary>Завершена</summary>
+        /// <summary>
+        /// Завершена
+        /// </summary>
         Completed = 4
     }
 
@@ -98,16 +156,24 @@ namespace Ski_equipment_rental_accounting_system
     /// </summary>
     public enum Season
     {
-        /// <summary>Зима 2024</summary>
+        /// <summary>
+        /// Зима 2024
+        /// </summary>
         Winter2024 = 1,
 
-        /// <summary>Лето 2024</summary>
+        /// <summary>
+        /// Лето 2024
+        /// </summary>
         Summer2024 = 2,
 
-        /// <summary>Зима 2025</summary>
+        /// <summary>
+        /// Зима 2025
+        /// </summary>
         Winter2025 = 3,
 
-        /// <summary>Лето 2025</summary>
+        /// <summary>
+        /// Лето 2025
+        /// </summary>
         Summer2025 = 4
     }
 
@@ -116,16 +182,24 @@ namespace Ski_equipment_rental_accounting_system
     /// </summary>
     public enum ReportFormat
     {
-        /// <summary>Таблица в приложении</summary>
+        /// <summary>
+        /// Таблица в приложении
+        /// </summary>
         Table = 1,
 
-        /// <summary>Excel файл</summary>
+        /// <summary>
+        /// Excel файл
+        /// </summary>
         Excel = 2,
 
-        /// <summary>PDF документ</summary>
+        /// <summary>
+        /// PDF документ
+        /// </summary>
         PDF = 3,
 
-        /// <summary>Печатная форма</summary>
+        /// <summary>
+        /// Печатная форма
+        /// </summary>
         Print = 4
     }
 
@@ -134,19 +208,29 @@ namespace Ski_equipment_rental_accounting_system
     /// </summary>
     public enum SortBy
     {
-        /// <summary>По типу снаряжения</summary>
+        /// <summary>
+        /// По типу снаряжения
+        /// </summary>
         EquipmentType = 1,
 
-        /// <summary>По стоимости аренды</summary>
+        /// <summary>
+        /// По стоимости аренды
+        /// </summary>
         RentalPrice = 2,
 
-        /// <summary>По дате выдачи</summary>
+        /// <summary>
+        /// По дате выдачи
+        /// </summary>
         StartDate = 3,
 
-        /// <summary>По клиенту</summary>
+        /// <summary>
+        /// По клиенту
+        /// </summary>
         ClientName = 4,
 
-        /// <summary>По статусу</summary>
+        /// <summary>
+        /// По статусу
+        /// </summary>
         Status = 5
     }
 
@@ -155,19 +239,29 @@ namespace Ski_equipment_rental_accounting_system
     /// </summary>
     public enum PaymentStatus
     {
-        /// <summary>Оплачено</summary>
+        /// <summary>
+        /// Оплачено полностью
+        /// </summary>
         Paid = 1,
 
-        /// <summary>Ожидает оплаты</summary>
+        /// <summary>
+        /// Ожидает оплаты
+        /// </summary>
         Pending = 2,
 
-        /// <summary>Частично оплачено</summary>
+        /// <summary>
+        /// Частично оплачено
+        /// </summary>
         Partial = 3,
 
-        /// <summary>Возврат средств</summary>
+        /// <summary>
+        /// Возврат средств
+        /// </summary>
         Refunded = 4,
 
-        /// <summary>Просрочен платеж</summary>
+        /// <summary>
+        /// Просрочен платеж
+        /// </summary>
         Overdue = 5
     }
 
@@ -176,16 +270,24 @@ namespace Ski_equipment_rental_accounting_system
     /// </summary>
     public enum PaymentMethod
     {
-        /// <summary>Наличные</summary>
+        /// <summary>
+        /// Наличные
+        /// </summary>
         Cash = 1,
 
-        /// <summary>Банковская карта</summary>
+        /// <summary>
+        /// Банковская карта
+        /// </summary>
         Card = 2,
 
-        /// <summary>Безналичный расчет</summary>
+        /// <summary>
+        /// Безналичный расчет
+        /// </summary>
         BankTransfer = 3,
 
-        /// <summary>Онлайн платеж</summary>
+        /// <summary>
+        /// Онлайн платеж
+        /// </summary>
         Online = 4
     }
 }

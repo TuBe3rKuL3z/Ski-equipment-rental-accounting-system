@@ -52,6 +52,7 @@
     <Grid Margin="10">
         <ScrollViewer VerticalScrollBarVisibility="Auto" 
                       HorizontalScrollBarVisibility="Disabled">
+            
 
             <Grid>
                 <Grid.RowDefinitions>
@@ -111,7 +112,7 @@
                     <TextBox x:Name="txtDailyPrice" 
                             MaxLength="10"
                             ToolTip="Цена за день аренды"
-                            PreviewTextInput="NumberValidationTextBox"/>
+                            PreviewTextInput="txtDailyPrice_PreviewTextInput"/>
 
                     <!-- Статус -->
                     <TextBlock Text="Статус:*"/>
@@ -129,12 +130,7 @@
                                       FontWeight="Bold"
                                       Margin="0,0,0,10"/>
 
-                            <Button x:Name="btnSelectImage" 
-                                   Content="📷 ВЫБРАТЬ ИЗОБРАЖЕНИЕ" 
-                                   Background="#3B82F6" 
-                                   Foreground="White"
-                                   Padding="15,10"
-                                   Click="btnSelectImage_Click"/>
+                            
 
                             <TextBlock x:Name="txtImageInfo" 
                                       Text="Изображение не выбрано" 
@@ -157,29 +153,7 @@
                     </Border>
                 </StackPanel>
 
-                <!-- КНОПКИ -->
-                <Border Grid.Row="2" 
-                        Background="#F8FAFC" 
-                        CornerRadius="10"
-                        Padding="10">
-                    <StackPanel Orientation="Horizontal" 
-                               HorizontalAlignment="Right">
-                        <Button x:Name="btnCancel" 
-                               Content="ОТМЕНА" 
-                               Background="#EF4444" 
-                               Foreground="White"
-                               Click="btnCancel_Click"
-                               Width="120"/>
-
-                        <Button x:Name="btnSave" 
-                               Content="СОХРАНИТЬ" 
-                               Background="#10B981" 
-                               Foreground="White"
-                               Click="btnSave_Click"
-                               Width="120"
-                               Margin="10,0,0,0"/>
-                    </StackPanel>
-                </Border>
+                
             </Grid>
         </ScrollViewer>
     </Grid>

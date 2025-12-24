@@ -5,6 +5,10 @@ using System.Windows.Controls;
 
 namespace Ski_equipment_rental_accounting_system
 {
+    /// <summary>
+    /// Код Главной формы
+    /// </summary>
+
     public partial class MainWindow : Window
     {
         private string currentTable = "";

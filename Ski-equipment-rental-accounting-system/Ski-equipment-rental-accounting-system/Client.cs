@@ -4,6 +4,9 @@ using System.Runtime.CompilerServices;
 
 namespace Ski_equipment_rental_accounting_system
 {
+    /// <summary>
+    /// Класс, представляющий клиента системы аренды
+    /// </summary>
     public class Client : INotifyPropertyChanged
     {
         private int id;
@@ -12,81 +15,114 @@ namespace Ski_equipment_rental_accounting_system
         private string secondName;
         private string documentNumber;
         private string phoneNumber;
-        private DocumentType documentType; // Изменяем на Enum
+        private DocumentType documentType;
         private DateTime registrationDate;
 
+        /// <summary>
+        /// Уникальный идентификатор клиента
+        /// </summary>
         public int Id
         {
             get => id;
             set { id = value; OnPropertyChanged(); }
         }
 
-        // Фамилия
+        /// <summary>
+        /// Фамилия клиента
+        /// </summary>
         public string LastName
         {
             get => lastName;
             set { lastName = value; OnPropertyChanged(); }
         }
 
-        // Имя
+        /// <summary>
+        /// Имя клиента
+        /// </summary>
         public string FirstName
         {
             get => firstName;
             set { firstName = value; OnPropertyChanged(); }
         }
 
-        // Отчество
+        /// <summary>
+        /// Отчество клиента
+        /// </summary>
         public string SecondName
         {
             get => secondName;
             set { secondName = value; OnPropertyChanged(); }
         }
 
-        // Полное ФИО
+        /// <summary>
+        /// Полное ФИО клиента
+        /// </summary>
         public string FullName => $"{LastName} {FirstName} {SecondName}";
 
-        // Тип документа (используем Enum)
+        /// <summary>
+        /// Тип документа, удостоверяющего личность
+        /// </summary>
         public DocumentType DocumentType
         {
             get => documentType;
             set { documentType = value; OnPropertyChanged(); }
         }
 
-        // Номер документа
+        /// <summary>
+        /// Номер документа
+        /// </summary>
         public string DocumentNumber
         {
             get => documentNumber;
             set { documentNumber = value; OnPropertyChanged(); }
         }
 
-        // Полные данные документа
+        /// <summary>
+        /// Полная информация о документе (тип и номер)
+        /// </summary>
         public string DocumentInfo => $"{DocumentType}: {DocumentNumber}";
 
-        // Номер телефона
+        /// <summary>
+        /// Номер телефона клиента
+        /// </summary>
         public string PhoneNumber
         {
             get => phoneNumber;
             set { phoneNumber = value; OnPropertyChanged(); }
         }
 
-        // Дата регистрации
+        /// <summary>
+        /// Дата регистрации клиента в системе
+        /// </summary>
         public DateTime RegistrationDate
         {
             get => registrationDate;
             set { registrationDate = value; OnPropertyChanged(); }
         }
 
-        // Количество активных аренд
+        /// <summary>
+        /// Количество активных аренд у клиента
+        /// </summary>
         public int ActiveRentalsCount { get; set; }
 
+        /// <summary>
+        /// Событие, возникающее при изменении свойства
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Вызывает событие PropertyChanged
+        /// </summary>
+        /// <param name="propertyName">Имя изменившегося свойства</param>
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        // Валидация данных клиента
+        /// <summary>
+        /// Проверяет корректность данных клиента
+        /// </summary>
+        /// <returns>Кортеж с результатом валидации и сообщением об ошибке</returns>
         public (bool IsValid, string ErrorMessage) Validate()
         {
             if (string.IsNullOrWhiteSpace(LastName))
@@ -110,13 +146,20 @@ namespace Ski_equipment_rental_accounting_system
             return (true, string.Empty);
         }
 
-        // Конвертация в строку для отладки
+        /// <summary>
+        /// Возвращает строковое представление объекта Client
+        /// </summary>
+        /// <returns>Строка с информацией о клиенте</returns>
         public override string ToString()
         {
             return $"{FullName} | {DocumentInfo} | {PhoneNumber}";
         }
 
-        // Создание клиента из DataRow
+        /// <summary>
+        /// Создает объект Client из строки данных DataRow
+        /// </summary>
+        /// <param name="row">Строка данных из базы данных</param>
+        /// <returns>Объект Client</returns>
         public static Client FromDataRow(System.Data.DataRow row)
         {
             return new Client
@@ -125,7 +168,7 @@ namespace Ski_equipment_rental_accounting_system
                 LastName = row["LastName"].ToString(),
                 FirstName = row["FirstName"].ToString(),
                 SecondName = row["SecondName"].ToString(),
-                DocumentType = (DocumentType)Convert.ToInt32(row["DocumentType"]), // Получаем Enum из БД
+                DocumentType = (DocumentType)Convert.ToInt32(row["DocumentType"]),
                 DocumentNumber = row["DocumentNumber"].ToString(),
                 PhoneNumber = row["PhoneNumber"]?.ToString() ?? string.Empty,
                 RegistrationDate = DateTime.Parse(row["RegistrationDate"].ToString())

@@ -9,49 +9,75 @@
     android:background="#1E3A8A"
     tools:context=".MainActivity">
 
-    <!-- Верхний статус-бар -->
+    <!-- Верхняя панель с меню и кнопками -->
     <androidx.cardview.widget.CardView
         android:id="@+id/topStatusBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         app:cardBackgroundColor="#020617"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="4dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="90dp"
+            android:layout_height="80dp"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp">
+
+            <!-- Кнопка меню (три полосы) -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btnMenu"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:cardBackgroundColor="#2563EB"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                android:layout_marginEnd="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="Меню"
+                android:importantForAccessibility="yes">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_menu"
+                    app:tint="@android:color/white"
+                    android:contentDescription="Открыть меню"
+                    android:layout_gravity="center"/>
+            </androidx.cardview.widget.CardView>
 
             <!-- Логотип и название -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:orientation="vertical">
 
-                <LinearLayout
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:text="SKIRENT PRO"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.05"/>
 
-                    <TextView
-                        android:layout_width="9dp"
-                        android:layout_height="wrap_content"
-                        android:text="SKIRENT PRO"
-                        android:textColor="@android:color/white"
-                        android:textSize="10sp"
-                        android:textStyle="bold"/>
-                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Система управления прокатом"
+                    android:textColor="#94A3B8"
+                    android:textSize="12sp"
+                    android:layout_marginTop="2dp"/>
             </LinearLayout>
 
-            <!-- Статус системы и пользователь -->
+            <!-- Правая часть с кнопками и пользователем -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -59,117 +85,171 @@
                 android:gravity="center_vertical">
 
                 <!-- Статус системы -->
-                <LinearLayout
+                <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="#1E293B"
-                    android:padding="12dp"
-                    android:layout_marginLeft="15dp"
-                    android:gravity="center_vertical">
-
-                    <View
-                        android:layout_width="8dp"
-                        android:layout_height="8dp"
-                        android:background="#10B981"
-                        android:layout_marginEnd="8dp"/>
+                    app:cardBackgroundColor="#1E293B"
+                    app:cardCornerRadius="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:padding="8dp">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
 
-                        <TextView
+                        <View
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:background="@drawable/circle_green"
+                            android:layout_marginEnd="8dp"/>
+
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="СИСТЕМА АКТИВНА"
-                            android:textColor="#E2E8F0"
-                            android:textSize="10sp"
-                            android:textStyle="bold"/>
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/txtCurrentTime"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="14:30:45"
-                            android:textColor="#94A3B8"
-                            android:textSize="9sp"
-                            android:layout_marginTop="1dp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="СИСТЕМА АКТИВНА"
+                                android:textColor="#E2E8F0"
+                                android:textSize="10sp"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:id="@+id/txtCurrentTime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="14:30:45"
+                                android:textColor="#94A3B8"
+                                android:textSize="9sp"
+                                android:layout_marginTop="2dp"/>
+                        </LinearLayout>
                     </LinearLayout>
-                </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
-                <!-- Кнопки действий -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginEnd="8dp">
-
-                    <Button
-                        android:id="@+id/btnSettings"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:text="⚙️"
-                        android:background="@android:color/transparent"
-                        android:textColor="#94A3B8"
-                        android:layout_marginEnd="4dp"/>
-
-                    <Button
-                        android:id="@+id/btnDeleteRow"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:text="🗑Настройки"
-                        android:background="@android:color/transparent"
-                        android:textColor="#EF4444"/>
-                </LinearLayout>
-
-                <!-- Пользователь -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="#1E293B"
-                    android:padding="12dp"
-                    android:layout_marginRight="15dp"
-                    android:gravity="center_vertical">
-
-                    <TextView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:background="#2563EB"
-                        android:gravity="center"
-                        android:text="ИИ"
-                        android:textColor="@android:color/white"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:layout_marginEnd="8dp"/>
+                <!-- Кнопка настроек -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/btnSettings"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="@drawable/btn_settings_selector">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_settings"
+                            app:tint="@android:color/white"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Иван Иванов"
+                            android:text="Настройки"
                             android:textColor="@android:color/white"
-                            android:textSize="12sp"
-                            android:textStyle="bold"/>
+                            android:textSize="10sp"
+                            android:layout_marginTop="2dp"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Кнопка удаления -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/btnDeleteRow"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp"
+                    android:layout_marginEnd="12dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="@drawable/btn_delete_selector">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_delete"
+                            app:tint="@android:color/white"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Оператор проката"
-                            android:textColor="#94A3B8"
-                            android:textSize="10sp"/>
+                            android:text="Удалить"
+                            android:textColor="@android:color/white"
+                            android:textSize="10sp"
+                            android:layout_marginTop="2dp"/>
                     </LinearLayout>
-                </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Профиль пользователя -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="#1E293B"
+                    app:cardCornerRadius="12dp"
+                    android:padding="8dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:background="#2563EB"
+                            android:gravity="center"
+                            android:text="ИИ"
+                            android:textColor="@android:color/white"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:layout_marginEnd="8dp"/>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Иван Иванов"
+                                android:textColor="@android:color/white"
+                                android:textSize="12sp"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Оператор проката"
+                                android:textColor="#94A3B8"
+                                android:textSize="10sp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- Основной контент с боковым меню -->
+    <!-- Основной контент -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mainContent"
         android:layout_width="0dp"
@@ -181,22 +261,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topStatusBar">
 
-        <!-- Боковое меню -->
+        <!-- Боковое меню (изначально скрыто) -->
         <androidx.cardview.widget.CardView
             android:id="@+id/sideMenu"
-            android:layout_width="200dp"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             app:cardBackgroundColor="#0F172A"
             app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
+            app:cardElevation="8dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.25">
 
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="10dp">
+                android:padding="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -204,69 +287,80 @@
                     android:orientation="vertical">
 
                     <!-- Навигационные кнопки -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="НАВИГАЦИЯ"
+                        android:textColor="#94A3B8"
+                        android:textSize="11sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.1"
+                        android:layout_marginBottom="12dp"
+                        android:layout_marginStart="8dp"/>
+
                     <Button
                         android:id="@+id/btnRentals"
                         android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:text="АРЕНДЫ"
+                        android:layout_height="55dp"
+                        android:text="🏂  АРЕНДЫ"
                         android:textColor="#E2E8F0"
                         android:background="@drawable/nav_button_selector"
-                        android:textSize="13sp"
+                        android:textSize="14sp"
                         android:textStyle="bold"
                         android:gravity="center_vertical|start"
-                        android:paddingStart="40dp"
-                        android:layout_marginBottom="4dp"/>
+                        android:paddingStart="16dp"
+                        android:layout_marginBottom="6dp"/>
 
                     <Button
                         android:id="@+id/btnBookings"
                         android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:text="БРОНИРОВАНИЯ"
+                        android:layout_height="55dp"
+                        android:text="📅  БРОНИРОВАНИЯ"
                         android:textColor="#E2E8F0"
                         android:background="@drawable/nav_button_selector"
-                        android:textSize="13sp"
+                        android:textSize="14sp"
                         android:textStyle="bold"
                         android:gravity="center_vertical|start"
-                        android:paddingStart="40dp"
-                        android:layout_marginBottom="4dp"/>
+                        android:paddingStart="16dp"
+                        android:layout_marginBottom="6dp"/>
 
                     <Button
                         android:id="@+id/btnClients"
                         android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:text="КЛИЕНТЫ"
+                        android:layout_height="55dp"
+                        android:text="👥  КЛИЕНТЫ"
                         android:textColor="#E2E8F0"
                         android:background="@drawable/nav_button_selector"
-                        android:textSize="13sp"
+                        android:textSize="14sp"
                         android:textStyle="bold"
                         android:gravity="center_vertical|start"
-                        android:paddingStart="40dp"
-                        android:layout_marginBottom="4dp"/>
+                        android:paddingStart="16dp"
+                        android:layout_marginBottom="6dp"/>
 
                     <Button
                         android:id="@+id/btnMaintenance"
                         android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:text="ОБСЛУЖИВАНИЕ"
+                        android:layout_height="55dp"
+                        android:text="🔧  ОБСЛУЖИВАНИЕ"
                         android:textColor="#E2E8F0"
                         android:background="@drawable/nav_button_selector"
-                        android:textSize="13sp"
+                        android:textSize="14sp"
                         android:textStyle="bold"
                         android:gravity="center_vertical|start"
-                        android:paddingStart="40dp"
-                        android:layout_marginBottom="4dp"/>
+                        android:paddingStart="16dp"
+                        android:layout_marginBottom="6dp"/>
 
                     <Button
                         android:id="@+id/btnEquipment"
                         android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:text="ОБОРУДОВАНИЕ"
+                        android:layout_height="55dp"
+                        android:text="🎿  ОБОРУДОВАНИЕ"
                         android:textColor="#E2E8F0"
                         android:background="@drawable/nav_button_selector"
-                        android:textSize="13sp"
+                        android:textSize="14sp"
                         android:textStyle="bold"
                         android:gravity="center_vertical|start"
-                        android:paddingStart="40dp"
+                        android:paddingStart="16dp"
                         android:layout_marginBottom="24dp"/>
 
                     <!-- Статистика -->
@@ -275,8 +369,7 @@
                         android:layout_height="wrap_content"
                         app:cardBackgroundColor="#1E293B"
                         app:cardCornerRadius="12dp"
-                        android:layout_margin="16dp"
-                        android:layout_marginBottom="16dp">
+                        app:cardElevation="4dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -287,7 +380,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="📈 СЕГОДНЯ"
+                                android:text="📈  СТАТИСТИКА СЕГОДНЯ"
                                 android:textColor="#94A3B8"
                                 android:textSize="12sp"
                                 android:textStyle="bold"
@@ -300,20 +393,20 @@
                                 android:layout_marginBottom="8dp">
 
                                 <TextView
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
+                                    android:layout_weight="1"
                                     android:text="Аренд:"
                                     android:textColor="#E2E8F0"
-                                    android:textSize="12sp"/>
+                                    android:textSize="13sp"/>
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="24"
                                     android:textColor="#60A5FA"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold"
-                                    android:layout_marginStart="8dp"/>
+                                    android:textSize="13sp"
+                                    android:textStyle="bold"/>
                             </LinearLayout>
 
                             <LinearLayout
@@ -323,20 +416,20 @@
                                 android:layout_marginBottom="8dp">
 
                                 <TextView
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
+                                    android:layout_weight="1"
                                     android:text="Выручка:"
                                     android:textColor="#E2E8F0"
-                                    android:textSize="12sp"/>
+                                    android:textSize="13sp"/>
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="42 800 ₽"
                                     android:textColor="#10B981"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold"
-                                    android:layout_marginStart="8dp"/>
+                                    android:textSize="13sp"
+                                    android:textStyle="bold"/>
                             </LinearLayout>
 
                             <LinearLayout
@@ -345,20 +438,20 @@
                                 android:orientation="horizontal">
 
                                 <TextView
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
+                                    android:layout_weight="1"
                                     android:text="Свободно:"
                                     android:textColor="#E2E8F0"
-                                    android:textSize="12sp"/>
+                                    android:textSize="13sp"/>
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="85%"
                                     android:textColor="#60A5FA"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold"
-                                    android:layout_marginStart="8dp"/>
+                                    android:textSize="13sp"
+                                    android:textStyle="bold"/>
                             </LinearLayout>
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
@@ -369,9 +462,31 @@
                         android:layout_height="wrap_content"
                         app:cardBackgroundColor="#1E293B"
                         app:cardCornerRadius="12dp"
-                        android:layout_margin="16dp">
+                        android:layout_marginTop="16dp">
 
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="💡  СОВЕТ"
+                                android:textColor="#94A3B8"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                android:layout_marginBottom="8dp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Проверьте доступность лыж перед новым сезоном"
+                                android:textColor="#E2E8F0"
+                                android:textSize="12sp"
+                                android:lineSpacingExtra="2dp"/>
+                        </LinearLayout>
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
@@ -387,61 +502,155 @@
             app:cardElevation="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/sideMenu"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="16dp">
+                android:padding="24dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Главная панель"
+                        android:textColor="#0F172A"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="24dp"/>
 
+                    <!-- Пример контента -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="@android:color/white"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="2dp"
+                        android:layout_marginBottom="16dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="20dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Активные аренды"
+                                android:textColor="#0F172A"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                android:layout_marginBottom="16dp"/>
+
+                            <!-- Здесь будет список аренд -->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Контент будет загружен..."
+                                android:textColor="#64748B"
+                                android:textSize="14sp"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Нижняя панель быстрых действий -->
-    <LinearLayout
+    <!-- Нижняя панель действий -->
+    <androidx.cardview.widget.CardView
         android:id="@+id/bottomActions"
         android:layout_width="0dp"
-        android:layout_height="150dp"
-        android:background="#0F172A"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:padding="8dp"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#0F172A"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="8dp"
+        android:layout_margin="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <Button
-            android:id="@+id/btnQuickNewRental"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_margin="3dp"
-            android:text="НОВАЯ"
-            android:textColor="@android:color/white"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:backgroundTint="#47A76A"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp">
 
-        <Button
-            android:id="@+id/btnQuickReturn"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_margin="3dp"
-            android:text="ВОЗВРАТ"
-            android:textColor="@android:color/white"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:backgroundTint="#FFA000"/>
-    </LinearLayout>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btnQuickNewRental"
+                android:layout_width="0dp"
+                android:layout_height="70dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                app:cardBackgroundColor="#47A76A"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="➕"
+                        android:textSize="20sp"
+                        android:layout_marginBottom="4dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="НОВАЯ АРЕНДА"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btnQuickReturn"
+                android:layout_width="0dp"
+                android:layout_height="70dp"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                app:cardBackgroundColor="#FFA000"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🔄"
+                        android:textSize="20sp"
+                        android:layout_marginBottom="4dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ВОЗВРАТ"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

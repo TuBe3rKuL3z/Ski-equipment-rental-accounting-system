@@ -4,6 +4,9 @@ using System.Runtime.CompilerServices;
 
 namespace Ski_equipment_rental_accounting_system
 {
+    /// <summary>
+    /// Класс, представляющий оборудование для аренды
+    /// </summary>
     public class Equipment : INotifyPropertyChanged
     {
         private int id;
@@ -16,94 +19,133 @@ namespace Ski_equipment_rental_accounting_system
         private EquipmentStatus status;
         private byte[] image;
 
+        /// <summary>
+        /// Уникальный идентификатор оборудования
+        /// </summary>
         public int Id
         {
             get => id;
             set { id = value; OnPropertyChanged(); }
         }
 
-        // Инвентарный номер
+        /// <summary>
+        /// Инвентарный номер оборудования
+        /// </summary>
         public string InventoryNumber
         {
             get => inventoryNumber;
             set { inventoryNumber = value; OnPropertyChanged(); }
         }
 
-        // Тип снаряжения
+        /// <summary>
+        /// Тип снаряжения
+        /// </summary>
         public EquipmentType Type
         {
             get => type;
             set { type = value; OnPropertyChanged(); }
         }
 
-        // Размер/ростовка
+        /// <summary>
+        /// Размер/ростовка оборудования
+        /// </summary>
         public string Size
         {
             get => size;
             set { size = value; OnPropertyChanged(); }
         }
 
-        // Бренд
+        /// <summary>
+        /// Бренд производителя
+        /// </summary>
         public string Brand
         {
             get => brand;
             set { brand = value; OnPropertyChanged(); }
         }
 
-        // Модель
+        /// <summary>
+        /// Модель оборудования
+        /// </summary>
         public string Model
         {
             get => model;
             set { model = value; OnPropertyChanged(); }
         }
 
-        // Стоимость аренды в сутки
+        /// <summary>
+        /// Стоимость аренды в сутки
+        /// </summary>
         public decimal DailyRentalPrice
         {
             get => dailyRentalPrice;
             set { dailyRentalPrice = value; OnPropertyChanged(); }
         }
 
-        // Статус оборудования
+        /// <summary>
+        /// Статус оборудования
+        /// </summary>
         public EquipmentStatus Status
         {
             get => status;
             set { status = value; OnPropertyChanged(); }
         }
 
-        // Изображение
+        /// <summary>
+        /// Изображение оборудования
+        /// </summary>
         public byte[] Image
         {
             get => image;
             set { image = value; OnPropertyChanged(); }
         }
 
-        // Проверка доступности
+        /// <summary>
+        /// Проверяет, доступно ли оборудование для аренды
+        /// </summary>
+        /// <returns>true, если оборудование доступно, иначе false</returns>
         public bool IsAvailable()
         {
             return Status == EquipmentStatus.Available;
         }
 
-        // Проверка на обслуживании
+        /// <summary>
+        /// Проверяет, находится ли оборудование на обслуживании
+        /// </summary>
+        /// <returns>true, если оборудование на обслуживании, иначе false</returns>
         public bool IsUnderMaintenance()
         {
             return Status == EquipmentStatus.UnderMaintenance;
         }
 
-        // Расчет стоимости аренды на N дней
+        /// <summary>
+        /// Рассчитывает стоимость аренды на указанное количество дней
+        /// </summary>
+        /// <param name="days">Количество дней аренды</param>
+        /// <returns>Общая стоимость аренды</returns>
         public decimal CalculateRentalPrice(int days)
         {
             return DailyRentalPrice * days;
         }
 
+        /// <summary>
+        /// Событие, возникающее при изменении свойства
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Вызывает событие PropertyChanged
+        /// </summary>
+        /// <param name="propertyName">Имя изменившегося свойства</param>
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        // Валидация оборудования
+        /// <summary>
+        /// Проверяет корректность данных оборудования
+        /// </summary>
+        /// <returns>Кортеж с результатом валидации и сообщением об ошибке</returns>
         public (bool IsValid, string ErrorMessage) Validate()
         {
             if (string.IsNullOrWhiteSpace(InventoryNumber))
@@ -124,7 +166,11 @@ namespace Ski_equipment_rental_accounting_system
             return (true, string.Empty);
         }
 
-        // Создание из DataRow
+        /// <summary>
+        /// Создает объект Equipment из строки данных DataRow
+        /// </summary>
+        /// <param name="row">Строка данных из базы данных</param>
+        /// <returns>Объект Equipment</returns>
         public static Equipment FromDataRow(System.Data.DataRow row)
         {
             return new Equipment

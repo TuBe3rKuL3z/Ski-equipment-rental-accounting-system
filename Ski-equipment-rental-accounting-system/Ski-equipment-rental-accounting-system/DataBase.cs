@@ -2,12 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Text;
 using System.Windows;
-using System.Windows.Documents;
 
 namespace Ski_equipment_rental_accounting_system
 {
+    /// <summary>
+    /// Класс Для управления базами данных
+    /// </summary>
+
     public class DataBase
     {
         public const string connString              = "RentalDB.db";
