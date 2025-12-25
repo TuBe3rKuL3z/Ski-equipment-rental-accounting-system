@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using Ski_equipment_rental_accounting_system;
 
 namespace SkiRentUnitTest
@@ -30,7 +29,7 @@ namespace SkiRentUnitTest
         {
             var client = new Client
             {
-                DocumentType = DocumentTypes.Passport,
+                DocumentType = DocumentType.Passport,
                 DocumentNumber = "1234567890"
             };
 
@@ -48,7 +47,7 @@ namespace SkiRentUnitTest
                 LastName = "",
                 FirstName = "Иван",
                 SecondName = "Иванович",
-                DocumentType = DocumentTypes.Passport,
+                DocumentType = DocumentType.Passport,
                 DocumentNumber = "1234567890"
             };
 
@@ -68,7 +67,7 @@ namespace SkiRentUnitTest
                 LastName = "Иванов",
                 FirstName = "Иван",
                 SecondName = "Иванович",
-                DocumentType = DocumentTypes.Passport,
+                DocumentType = DocumentType.Passport,
                 DocumentNumber = "12"
             };
 
