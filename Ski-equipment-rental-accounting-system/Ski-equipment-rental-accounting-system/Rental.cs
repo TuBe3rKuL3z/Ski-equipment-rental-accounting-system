@@ -19,6 +19,8 @@ namespace Ski_equipment_rental_accounting_system
         private DateTime? actualReturnDate;
         private PaymentStatus paymentStatus;
         private PaymentMethod paymentMethod;
+        private decimal discountAmount;
+        private string discountCode;
 
         /// <summary>
         /// Уникальный идентификатор аренды
@@ -111,11 +113,42 @@ namespace Ski_equipment_rental_accounting_system
         }
 
         /// <summary>
+        /// Сумма скидки
+        /// </summary>
+        public decimal DiscountAmount
+        {
+            get => discountAmount;
+            set
+            {
+                discountAmount = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(FinalPrice));
+            }
+        }
+
+        /// <summary>
+        /// Код примененной скидки
+        /// </summary>
+        public string DiscountCode
+        {
+            get => discountCode;
+            set { discountCode = value; OnPropertyChanged(); }
+        }
+
+        /// <summary>
         /// Количество дней аренды
         /// </summary>
         public int RentalDays
         {
             get => (int)(EndDate - StartDate).TotalDays;
+        }
+
+        /// <summary>
+        /// Итоговая стоимость с учетом скидки
+        /// </summary>
+        public decimal FinalPrice
+        {
+            get => TotalPrice - DiscountAmount;
         }
 
         /// <summary>
@@ -154,6 +187,28 @@ namespace Ski_equipment_rental_accounting_system
         }
 
         /// <summary>
+        /// Применяет скидку к аренде
+        /// </summary>
+        /// <param name="discount">Объект скидки</param>
+        public void ApplyDiscount(Discount discount)
+        {
+            if (discount == null || !discount.IsValidNow()) return;
+
+            DiscountAmount = discount.CalculateDiscount(TotalPrice);
+            DiscountCode = discount.Code;
+            discount.IncrementUsage();
+        }
+
+        /// <summary>
+        /// Снимает скидку
+        /// </summary>
+        public void RemoveDiscount()
+        {
+            DiscountAmount = 0;
+            DiscountCode = null;
+        }
+
+        /// <summary>
         /// Событие, возникающее при изменении свойства
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
@@ -178,6 +233,9 @@ namespace Ski_equipment_rental_accounting_system
 
             if (TotalPrice <= 0)
                 return (false, "Стоимость должна быть больше 0");
+
+            if (DiscountAmount > TotalPrice)
+                return (false, "Скидка не может превышать общую стоимость");
 
             return (true, string.Empty);
         }

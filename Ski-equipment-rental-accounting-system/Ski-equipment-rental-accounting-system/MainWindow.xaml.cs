@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -35,6 +36,9 @@ namespace Ski_equipment_rental_accounting_system
                 // Явно обновляем схему Client
                 DataBase.UpdateClientTableSchema();
 
+                // Обновляем схему Rental
+                DatabaseUpdater.UpdateRentalTableSchema();
+
                 // Проверяем, есть ли данные
                 var clients = DataBase.SelectTableClient();
                 if (clients.Rows.Count == 0)
@@ -47,6 +51,7 @@ namespace Ski_equipment_rental_accounting_system
                 MessageBox.Show($"Ошибка инициализации БД: {ex.Message}");
             }
         }
+
 
 
         private void InitializeDatabase()
@@ -211,14 +216,36 @@ namespace Ski_equipment_rental_accounting_system
                     ShowAddClientWindow();
                     break;
                 case "Equipment":
-                    MessageBox.Show("Добавление оборудования - в разработке", "Информация");
+                    ShowAddEquipmentWindow();
                     break;
                 case "Rental":
-                    MessageBox.Show("Создание аренды - в разработке", "Информация");
+                    ShowAddRentalWindow(); // НОВЫЙ МЕТОД
                     break;
                 default:
-                    ShowAddClientWindow(); // По умолчанию добавляем клиента
+                    ShowAddClientWindow();
                     break;
+            }
+        }
+
+        // ДОБАВИТЬ НОВЫЙ МЕТОД:
+        private void ShowAddRentalWindow()
+        {
+            AddRentalWindow addRentalWindow = new AddRentalWindow();
+            addRentalWindow.Owner = this;
+            if (addRentalWindow.ShowDialog() == true)
+            {
+                // Обновляем таблицу аренд
+                btnRentals_Click(null, null);
+            }
+        }
+
+        // ДОБАВИТЬ МЕТОД ДЛЯ ОБОРУДОВАНИЯ:
+        private void ShowAddEquipmentWindow()
+        {
+            AddEquipmentWindow addWindow = new AddEquipmentWindow();
+            if (addWindow.ShowDialog() == true)
+            {
+                btnEquipment_Click(null, null);
             }
         }
 

@@ -22,7 +22,7 @@ namespace Ski_equipment_rental_accounting_system
         //stringInsert
         public const string stringInsertCashier     = "INSERT INTO Cashier (Name, Password) VALUES (@name, @password)";
         public const string stringInsertClient      = "INSERT INTO Client (FirstName, LastName, SecondName, DocumentType, DocumentNumber, PhoneNumber) VALUES (@firstName, @lastName, @secondName, @documentType, @documentNumber, @phoneNumber)";
-        public const string stringInsertRental      = "INSERT INTO Rental (DateStart, DateEnd, TotalPrice, Status) VALUES (@dateStart, @dateEnd, @totalPrice, @status)";
+        public const string stringInsertRental = "INSERT INTO Rental (ClientId, EquipmentId, StartDate, EndDate, TotalPrice, Status, PaymentStatus, PaymentMethod, DiscountCode, DiscountAmount) VALUES (@clientId, @equipmentId, @startDate, @endDate, @totalPrice, @status, @paymentStatus, @paymentMethod, @discountCode, @discountAmount)";
         public const string stringInsertEquipment   = "INSERT INTO Equipment (Inv_numbery, Type, Size, Brand, Model, Image, Status) VALUES (@inv_numbery, @type, @size, @brand, @model, @image, @status)";
         //stringDelete
         public const string stringDeleteCashier     = "DELETE FROM Cashier WHERE Id = @id";
@@ -34,6 +34,12 @@ namespace Ski_equipment_rental_accounting_system
         public const string stringEditClient        = "UPDATE Client SET FirstName = @firstName, LastName = @lastName, SecondName = @secondName, DocumentType = @documentType, DocumentNumber = @documentNumber, PhoneNumber = @phoneNumber WHERE Id = @id";
         public const string stringEditRental        = "UPDATE Rental SET DateStart = @dateStart, DateEnd = @dateEnd, TotalPrice = @totalPrice, Status = @status WHERE Id = @id";
         public const string stringEditEquipment     = "UPDATE Equipment SET Inv_numbery = @inv_numbery, Type = @type, Size = @size, Brand = @brand, Model = @model, Image = @image, Status = @status WHERE Id = @id";
+
+        // ДОБАВИТЬ В КОНСТАНТЫ:
+        public const string stringSelectDiscount = "SELECT * FROM Discount";
+        public const string stringInsertDiscount = "INSERT INTO Discount (Code, Type, Value, ValidFrom, ValidTo, IsActive, Description) VALUES (@code, @type, @value, @validFrom, @validTo, @isActive, @description)";
+        public const string stringDeleteDiscount = "DELETE FROM Discount WHERE Id = @id";
+        public const string stringEditDiscount = "UPDATE Discount SET Code = @code, Type = @type, Value = @value, ValidFrom = @validFrom, ValidTo = @validTo, IsActive = @isActive, Description = @description WHERE Id = @id";
 
         //+CREATE TABLES
         #region CREATE
@@ -116,20 +122,21 @@ namespace Ski_equipment_rental_accounting_system
                 connection.Open();
 
                 command = new SqliteCommand(@"CREATE TABLE IF NOT EXISTS Rental (
-                                    Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-                                    ClientId INTEGER NOT NULL,
-                                    EquipmentId INTEGER NOT NULL,
-                                    StartDate TEXT NOT NULL,
-                                    EndDate TEXT NOT NULL,
-                                    TotalPrice REAL NOT NULL,
-                                    Status INTEGER NOT NULL, 
-                                    PaymentStatus INTEGER NOT NULL,
-                                    PaymentMethod INTEGER NOT NULL,
-                                    ActualReturnDate TEXT,
-                                    FOREIGN KEY (ClientId) REFERENCES Client(Id),
-                                    FOREIGN KEY (EquipmentId) REFERENCES Equipment(Id)
-                                );", connection);
-
+                            Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+                            ClientId INTEGER NOT NULL,
+                            EquipmentId INTEGER NOT NULL,
+                            StartDate TEXT NOT NULL,
+                            EndDate TEXT NOT NULL,
+                            TotalPrice REAL NOT NULL,
+                            Status INTEGER NOT NULL, 
+                            PaymentStatus INTEGER NOT NULL,
+                            PaymentMethod INTEGER NOT NULL,
+                            DiscountCode TEXT,
+                            DiscountAmount REAL DEFAULT 0,
+                            ActualReturnDate TEXT,
+                            FOREIGN KEY (ClientId) REFERENCES Client(Id),
+                            FOREIGN KEY (EquipmentId) REFERENCES Equipment(Id)
+                        );", connection);
 
                 command.ExecuteNonQuery();
             }
@@ -139,11 +146,12 @@ namespace Ski_equipment_rental_accounting_system
             }
             finally
             {
-                if (command != null) command.Dispose(); // ← ДОБАВЬТЕ ЭТУ СТРОКУ!
+                if (command != null) command.Dispose();
                 if (connection != null && connection.State != ConnectionState.Closed)
                     connection.Close();
             }
         }
+
         public static void CreateTableEquipment()
         {
             SqliteConnection connection = null;
@@ -175,6 +183,43 @@ namespace Ski_equipment_rental_accounting_system
             finally
             {
                 if (command != null) command.Dispose(); // ← ДОБАВЬТЕ ЭТУ СТРОКУ!
+                if (connection != null && connection.State != ConnectionState.Closed)
+                    connection.Close();
+            }
+        }
+
+        // ДОБАВИТЬ МЕТОД СОЗДАНИЯ ТАБЛИЦЫ:
+        public static void CreateTableDiscount()
+        {
+            SqliteConnection connection = null;
+            SqliteCommand command = null;
+
+            try
+            {
+                connection = new SqliteConnection($"Data Source={connString}");
+                connection.Open();
+
+                command = new SqliteCommand(@"CREATE TABLE IF NOT EXISTS Discount (
+            Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+            Code TEXT NOT NULL UNIQUE,
+            Type INTEGER NOT NULL,
+            Value REAL NOT NULL,
+            ValidFrom TEXT NOT NULL,
+            ValidTo TEXT NOT NULL,
+            IsActive INTEGER NOT NULL DEFAULT 1,
+            Description TEXT,
+            UsageCount INTEGER DEFAULT 0
+        );", connection);
+
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Таблица Скидок ошибка: {ex}");
+            }
+            finally
+            {
+                if (command != null) command.Dispose();
                 if (connection != null && connection.State != ConnectionState.Closed)
                     connection.Close();
             }
@@ -616,8 +661,11 @@ namespace Ski_equipment_rental_accounting_system
             }
         }
 
-        public static void InsertTableRental(DateTime dateStart, DateTime dateEnd,
-                                           decimal totalPrice, string status)
+        public static void InsertTableRental(int clientId, int equipmentId,
+                                   DateTime startDate, DateTime endDate,
+                                   decimal totalPrice, RentalStatus status,
+                                   PaymentStatus paymentStatus, PaymentMethod paymentMethod,
+                                   string discountCode = null, decimal discountAmount = 0)
         {
             SqliteConnection connection = null;
             SqliteCommand command = null;
@@ -627,21 +675,23 @@ namespace Ski_equipment_rental_accounting_system
                 connection = new SqliteConnection($"Data Source={connString}");
                 connection.Open();
 
-                command = new SqliteCommand(stringInsertRental, connection);
+                command = new SqliteCommand(@"INSERT INTO Rental 
+                                    (ClientId, EquipmentId, StartDate, EndDate, TotalPrice, 
+                                     Status, PaymentStatus, PaymentMethod, DiscountCode, DiscountAmount) 
+                                    VALUES (@clientId, @equipmentId, @startDate, @endDate, @totalPrice, 
+                                            @status, @paymentStatus, @paymentMethod, @discountCode, @discountAmount)",
+                                            connection);
 
-                // создаем параметр для даты начала и добавляем его
-                SqliteParameter dateStartParam = new SqliteParameter("@dateStart", dateStart.ToString("yyyy-MM-dd"));
-                command.Parameters.Add(dateStartParam);
-
-                // создаем параметр для даты окончания и добавляем его
-                SqliteParameter dateEndParam = new SqliteParameter("@dateEnd", dateEnd.ToString("yyyy-MM-dd"));
-                command.Parameters.Add(dateEndParam);
-
-                SqliteParameter totalPriceParam = new SqliteParameter("@totalPrice", totalPrice);
-                command.Parameters.Add(totalPriceParam);
-
-                SqliteParameter statusParam = new SqliteParameter("@status", status);
-                command.Parameters.Add(statusParam);
+                command.Parameters.AddWithValue("@clientId", clientId);
+                command.Parameters.AddWithValue("@equipmentId", equipmentId);
+                command.Parameters.AddWithValue("@startDate", startDate.ToString("yyyy-MM-dd"));
+                command.Parameters.AddWithValue("@endDate", endDate.ToString("yyyy-MM-dd"));
+                command.Parameters.AddWithValue("@totalPrice", totalPrice);
+                command.Parameters.AddWithValue("@status", (int)status);
+                command.Parameters.AddWithValue("@paymentStatus", (int)paymentStatus);
+                command.Parameters.AddWithValue("@paymentMethod", (int)paymentMethod);
+                command.Parameters.AddWithValue("@discountCode", discountCode ?? (object)DBNull.Value);
+                command.Parameters.AddWithValue("@discountAmount", discountAmount);
 
                 int number = command.ExecuteNonQuery();
                 MessageBox.Show($"Добавлено объектов: {number}");
@@ -652,22 +702,12 @@ namespace Ski_equipment_rental_accounting_system
             }
             finally
             {
-                if (command != null)
-                {
-                    command.Dispose();
-                }
-
+                if (command != null) command.Dispose();
                 if (connection != null && connection.State != ConnectionState.Closed)
-                {
                     connection.Close();
-                }
-
-                if (connection != null)
-                {
-                    connection.Dispose();
-                }
             }
         }
+
 
         public static void InsertTableEquipment(string invNumber, string type, string size,
                                               string brand, string model, byte[] image, string status)
@@ -1121,12 +1161,14 @@ namespace Ski_equipment_rental_accounting_system
         }
         #endregion
 
+        // ОБНОВИТЬ МЕТОД CreateAllTables():
         public static void CreateAllTables()
         {
             CreateTableCashier();
             CreateTableClient();
             CreateTableRental();
             CreateTableEquipment();
+            CreateTableDiscount(); // ДОБАВИТЬ ЭТУ СТРОКУ
         }
 
         #region НОВЫЕ МЕТОДЫ ДЛЯ РАБОТЫ С ОБЪЕКТАМИ
@@ -1266,37 +1308,61 @@ namespace Ski_equipment_rental_accounting_system
 
                 while (reader.Read())
                 {
-                    Client client = new Client
+                    try
                     {
-                        Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                        LastName = reader.GetString(reader.GetOrdinal("LastName")),
-                        FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
-                        SecondName = reader.GetString(reader.GetOrdinal("SecondName")),
-                        DocumentType = (DocumentType)reader.GetInt32(reader.GetOrdinal("DocumentType")), // Число → Enum
-                        DocumentNumber = reader.GetString(reader.GetOrdinal("DocumentNumber")),
-                        PhoneNumber = reader.IsDBNull(reader.GetOrdinal("PhoneNumber")) ?
-                                      string.Empty : reader.GetString(reader.GetOrdinal("PhoneNumber")),
-                        RegistrationDate = reader.IsDBNull(reader.GetOrdinal("RegistrationDate")) ?
-                                           DateTime.Now : DateTime.Parse(reader.GetString(reader.GetOrdinal("RegistrationDate")))
-                    };
+                        Client client = new Client
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            LastName = reader.GetString(reader.GetOrdinal("LastName")),
+                            FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                            SecondName = reader.GetString(reader.GetOrdinal("SecondName")),
+                            DocumentType = (DocumentType)reader.GetInt32(reader.GetOrdinal("DocumentType")),
+                            DocumentNumber = reader.GetString(reader.GetOrdinal("DocumentNumber")),
+                            PhoneNumber = reader.IsDBNull(reader.GetOrdinal("PhoneNumber")) ?
+                                          string.Empty : reader.GetString(reader.GetOrdinal("PhoneNumber")),
+                            RegistrationDate = reader.IsDBNull(reader.GetOrdinal("RegistrationDate")) ?
+                                               DateTime.Now : DateTime.Parse(reader.GetString(reader.GetOrdinal("RegistrationDate")))
+                        };
 
-                    clients.Add(client);
+                        clients.Add(client);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Ошибка чтения клиента: {ex.Message}");
+                        // Пропускаем некорректные записи
+                    }
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Ошибка загрузки клиентов: {ex.Message}");
+                // Возвращаем пустой список вместо null
             }
             finally
             {
-                if (reader != null && !reader.IsClosed) reader.Close();
-                if (command != null) command.Dispose();
-                if (connection != null && connection.State != ConnectionState.Closed)
-                    connection.Close();
+                try
+                {
+                    if (reader != null && !reader.IsClosed) reader.Close();
+                }
+                catch { }
+
+                try
+                {
+                    if (command != null) command.Dispose();
+                }
+                catch { }
+
+                try
+                {
+                    if (connection != null && connection.State != ConnectionState.Closed)
+                        connection.Close();
+                }
+                catch { }
             }
 
             return clients;
         }
+
 
         // Метод 4: Получение клиента по ID
         public static Client GetClientById(int clientId)
@@ -1393,6 +1459,154 @@ namespace Ski_equipment_rental_accounting_system
         }
 
 
+
+
         #endregion
+
+
+        // ДОБАВИТЬ CRUD ДЛЯ DISCOUNT:
+        public static DataTable SelectTableDiscount()
+        {
+            DataTable table = new DataTable();
+            SqliteConnection connection = null;
+            SqliteDataReader reader = null;
+            SqliteCommand command = null;
+
+            try
+            {
+                connection = new SqliteConnection($"Data Source={connString}");
+                connection.Open();
+
+                command = new SqliteCommand(stringSelectDiscount, connection);
+                reader = command.ExecuteReader();
+                table.Load(reader);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка чтения скидок: {ex}");
+            }
+            finally
+            {
+                if (reader != null && !reader.IsClosed) reader.Close();
+                if (command != null) command.Dispose();
+                if (connection != null && connection.State != ConnectionState.Closed)
+                    connection.Close();
+            }
+
+            return table;
+        }
+
+        public static void InsertTableDiscount(Discount discount)
+        {
+            SqliteConnection connection = null;
+            SqliteCommand command = null;
+
+            try
+            {
+                connection = new SqliteConnection($"Data Source={connString}");
+                connection.Open();
+
+                command = new SqliteCommand(stringInsertDiscount, connection);
+
+                command.Parameters.AddWithValue("@code", discount.Code);
+                command.Parameters.AddWithValue("@type", (int)discount.Type);
+                command.Parameters.AddWithValue("@value", discount.Value);
+                command.Parameters.AddWithValue("@validFrom", discount.ValidFrom.ToString("yyyy-MM-dd"));
+                command.Parameters.AddWithValue("@validTo", discount.ValidTo.ToString("yyyy-MM-dd"));
+                command.Parameters.AddWithValue("@isActive", discount.IsActive ? 1 : 0);
+                command.Parameters.AddWithValue("@description", discount.Description ?? string.Empty);
+
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка добавления скидки: {ex.Message}");
+            }
+            finally
+            {
+                if (command != null) command.Dispose();
+                if (connection != null && connection.State != ConnectionState.Closed)
+                    connection.Close();
+            }
+        }
+
+        // Метод для проверки скидки по коду
+        public static Discount ValidateDiscountCode(string code)
+        {
+            Discount discount = null;
+            SqliteConnection connection = null;
+            SqliteCommand command = null;
+            SqliteDataReader reader = null;
+
+            try
+            {
+                connection = new SqliteConnection($"Data Source={connString}");
+                connection.Open();
+
+                command = new SqliteCommand("SELECT * FROM Discount WHERE Code = @code AND IsActive = 1", connection);
+                command.Parameters.AddWithValue("@code", code);
+
+                reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    discount = new Discount
+                    {
+                        Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                        Code = reader.GetString(reader.GetOrdinal("Code")),
+                        Type = (DiscountType)reader.GetInt32(reader.GetOrdinal("Type")),
+                        Value = reader.GetDecimal(reader.GetOrdinal("Value")),
+                        ValidFrom = DateTime.Parse(reader.GetString(reader.GetOrdinal("ValidFrom"))),
+                        ValidTo = DateTime.Parse(reader.GetString(reader.GetOrdinal("ValidTo"))),
+                        IsActive = reader.GetInt32(reader.GetOrdinal("IsActive")) == 1,
+                        Description = reader.IsDBNull(reader.GetOrdinal("Description")) ?
+                                      string.Empty : reader.GetString(reader.GetOrdinal("Description")),
+                        UsageCount = reader.GetInt32(reader.GetOrdinal("UsageCount"))
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка проверки скидки: {ex.Message}");
+            }
+            finally
+            {
+                if (reader != null && !reader.IsClosed) reader.Close();
+                if (command != null) command.Dispose();
+                if (connection != null && connection.State != ConnectionState.Closed)
+                    connection.Close();
+            }
+
+            return discount;
+        }
+
+        // Метод для обновления счетчика использований
+        public static void UpdateDiscountUsage(int discountId, int newUsageCount)
+        {
+            SqliteConnection connection = null;
+            SqliteCommand command = null;
+
+            try
+            {
+                connection = new SqliteConnection($"Data Source={connString}");
+                connection.Open();
+
+                command = new SqliteCommand("UPDATE Discount SET UsageCount = @usageCount WHERE Id = @id", connection);
+                command.Parameters.AddWithValue("@usageCount", newUsageCount);
+                command.Parameters.AddWithValue("@id", discountId);
+
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка обновления скидки: {ex.Message}");
+            }
+            finally
+            {
+                if (command != null) command.Dispose();
+                if (connection != null && connection.State != ConnectionState.Closed)
+                    connection.Close();
+            }
+        }
     }
 }

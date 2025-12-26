@@ -524,25 +524,20 @@
 
             <!-- ЦЕНТРАЛЬНАЯ ОБЛАСТЬ КОНТЕНТА -->
             <Border Grid.Column="1" 
-                    Background="{StaticResource BackgroundLight}">
+        Background="{StaticResource BackgroundLight}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" 
-                              HorizontalScrollBarVisibility="Disabled"
-                              Padding="40">
+                  HorizontalScrollBarVisibility="Disabled"
+                  Padding="40">
                     <!-- ОБЛАСТЬ ДЛЯ ДИНАМИЧЕСКОЙ ЗАМЕНЫ КОНТЕНТА -->
                     <ContentControl x:Name="ContentArea">
-                                <StackPanel VerticalAlignment="Center" 
-                                        HorizontalAlignment="Center"
-                                        MaxWidth="800">
-                            <Border Background="White" 
-                                    CornerRadius="30" 
-                                    Width="600" 
-                                    Height="350"
-                                    Margin="0,0,0,40">
-                                <DataGrid x:Name="dataGrid" ItemsSource="{Binding Users}" AutoGenerateColumns="True" SelectionChanged="DataGrid_SelectionChanged" />
-                            </Border>
-                        </StackPanel>
-                        
-
+                        <Border Background="White" 
+                    CornerRadius="30">
+                            <DataGrid x:Name="dataGrid" 
+                          ItemsSource="{Binding Users}" 
+                          AutoGenerateColumns="True" 
+                          SelectionChanged="DataGrid_SelectionChanged"
+                          Margin="10" />
+                        </Border>
                     </ContentControl>
                 </ScrollViewer>
             </Border>
