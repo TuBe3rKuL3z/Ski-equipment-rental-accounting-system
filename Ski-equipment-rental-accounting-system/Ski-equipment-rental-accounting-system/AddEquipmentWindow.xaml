@@ -141,6 +141,53 @@
                         </StackPanel>
                     </Border>
 
+                    <!-- В AddEquipmentWindow.xaml ДОБАВИТЬ ПОСЛЕ БЛОКА С ИЗОБРАЖЕНИЕМ: -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+                        <Button x:Name="btnSelectImage" 
+            Content="📁 ВЫБРАТЬ ФАЙЛ" 
+            Background="#3B82F6" 
+            Click="btnSelectImage_Click"
+            Width="250"
+            Height="80"
+            Margin="10"/>
+
+                        <Button x:Name="btnPreviewImage" 
+            Content="👁️ ПРЕДПРОСМОТР" 
+            Background="#8B5CF6" 
+            Click="btnPreviewImage_Click"
+            Width="250"
+            Height="80"
+            Margin="10"
+            Visibility="Collapsed"/>
+                    </StackPanel>
+
+                    <!-- И НИЖНЮЮ ПАНЕЛЬ С КНОПКАМИ: -->
+                    <Border Grid.Row="2" 
+        Background="#F8FAFC" 
+        CornerRadius="10"
+        Padding="10">
+                        <StackPanel Orientation="Horizontal" 
+               HorizontalAlignment="Right">
+                            <Button x:Name="btnCancel" 
+               Content="ОТМЕНА" 
+               Background="#EF4444" 
+               Foreground="White"
+               Click="btnCancel_Click"
+               Width="200"
+               Height="80"/>
+
+                            <Button x:Name="btnSave" 
+               Content="СОХРАНИТЬ" 
+               Background="#10B981" 
+               Foreground="White"
+               Click="btnSave_Click"
+               Width="200"
+               Height="80"
+               Margin="20,0,0,0"/>
+                        </StackPanel>
+                    </Border>
+
+
                     <!-- Подсказка -->
                     <Border Background="#F1F5F9" 
                             CornerRadius="8" 

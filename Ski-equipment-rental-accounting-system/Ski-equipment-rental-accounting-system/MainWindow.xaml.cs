@@ -9,48 +9,48 @@ namespace Ski_equipment_rental_accounting_system
     /// Код Главной формы
     /// </summary>
 
-    public partial class MainWindow : Window
-    {
-        private string currentTable = "";
-
-        public MainWindow()
+        public partial class MainWindow : Window
         {
-            InitializeComponent();
+            private string currentTable = "";
 
-            // Обновляем БД перед использованием
-            UpdateDatabaseSchema();
-
-            // Устанавливаем начальное состояние
-            SetActiveButton(btnClients);  // Начнем с клиентов
-            ShowTable("Client");
-        }
-
-        private void UpdateDatabaseSchema()
-        {
-            try
+            public MainWindow()
             {
-                // Сначала создаем таблицы
-                DataBase.CreateAllTables();
+                InitializeComponent();
 
-                // Явно обновляем схему Client
-                DataBase.UpdateClientTableSchema();
+                // Обновляем БД перед использованием
+                UpdateDatabaseSchema();
 
-                // Проверяем, есть ли данные
-                var clients = DataBase.SelectTableClient();
-                if (clients.Rows.Count == 0)
+                // Устанавливаем начальное состояние
+                SetActiveButton(btnClients);  // Начнем с клиентов
+                ShowTable("Client");
+            }
+
+            private void UpdateDatabaseSchema()
+            {
+                try
                 {
-                    AddDemoData();
+                    // Сначала создаем таблицы
+                    DataBase.CreateAllTables();
+
+                    // Явно обновляем схему Client
+                    DataBase.UpdateClientTableSchema();
+
+                    // Проверяем, есть ли данные
+                    var clients = DataBase.SelectTableClient();
+                    if (clients.Rows.Count == 0)
+                    {
+                        AddDemoData();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка инициализации БД: {ex.Message}");
                 }
             }
-            catch (Exception ex)
+
+
+            private void InitializeDatabase()
             {
-                MessageBox.Show($"Ошибка инициализации БД: {ex.Message}");
-            }
-        }
-
-
-        private void InitializeDatabase()
-        {
             try
             {
                 DataBase.CreateAllTables();
@@ -211,14 +211,34 @@ namespace Ski_equipment_rental_accounting_system
                     ShowAddClientWindow();
                     break;
                 case "Equipment":
-                    MessageBox.Show("Добавление оборудования - в разработке", "Информация");
+                    ShowAddEquipmentWindow();
                     break;
                 case "Rental":
-                    MessageBox.Show("Создание аренды - в разработке", "Информация");
+                    ShowAddRentalWindow(); // НОВЫЙ МЕТОД
                     break;
                 default:
-                    ShowAddClientWindow(); // По умолчанию добавляем клиента
+                    ShowAddClientWindow();
                     break;
+            }
+        }
+        private void ShowAddRentalWindow()
+        {
+            AddRentalWindow addRentalWindow = new AddRentalWindow();
+            addRentalWindow.Owner = this;
+            if (addRentalWindow.ShowDialog() == true)
+            {
+                // Обновляем таблицу аренд
+                btnRentals_Click(null, null);
+            }
+        }
+
+        // ДОБАВИТЬ МЕТОД ДЛЯ ОБОРУДОВАНИЯ:
+        private void ShowAddEquipmentWindow()
+        {
+            AddEquipmentWindow addWindow = new AddEquipmentWindow();
+            if (addWindow.ShowDialog() == true)
+            {
+                btnEquipment_Click(null, null);
             }
         }
 

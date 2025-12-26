@@ -120,13 +120,21 @@
     <Compile Include="AddEquipmentWindow.xaml.cs">
       <DependentUpon>AddEquipmentWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AddRentalWindow.xaml.cs">
+      <DependentUpon>AddRentalWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Cashier.cs" />
+    <Compile Include="Discount.cs" />
     <Compile Include="Rental.cs" />
     <Page Include="AddClientWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AddEquipmentWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddRentalWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
