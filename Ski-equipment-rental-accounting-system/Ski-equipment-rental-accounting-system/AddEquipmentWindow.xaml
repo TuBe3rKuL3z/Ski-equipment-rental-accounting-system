@@ -141,6 +141,10 @@
                         </StackPanel>
                     </Border>
 
+<<<<<<< HEAD
+=======
+                    <!-- В AddEquipmentWindow.xaml ДОБАВИТЬ ПОСЛЕ БЛОКА С ИЗОБРАЖЕНИЕМ: -->
+>>>>>>> d57a948fa8f43d42efa8eba40f660900595a991a
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
                         <Button x:Name="btnSelectImage" 
             Content="📁 ВЫБРАТЬ ФАЙЛ" 
@@ -186,6 +190,10 @@
                         </StackPanel>
                     </Border>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> d57a948fa8f43d42efa8eba40f660900595a991a
                     <!-- Подсказка -->
                     <Border Background="#F1F5F9" 
                             CornerRadius="8" 

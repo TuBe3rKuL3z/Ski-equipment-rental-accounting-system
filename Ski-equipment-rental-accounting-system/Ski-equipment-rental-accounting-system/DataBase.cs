@@ -34,13 +34,19 @@ namespace Ski_equipment_rental_accounting_system
         public const string stringEditClient        = "UPDATE Client SET FirstName = @firstName, LastName = @lastName, SecondName = @secondName, DocumentType = @documentType, DocumentNumber = @documentNumber, PhoneNumber = @phoneNumber WHERE Id = @id";
         public const string stringEditRental        = "UPDATE Rental SET DateStart = @dateStart, DateEnd = @dateEnd, TotalPrice = @totalPrice, Status = @status WHERE Id = @id";
         public const string stringEditEquipment     = "UPDATE Equipment SET Inv_numbery = @inv_numbery, Type = @type, Size = @size, Brand = @brand, Model = @model, Image = @image, Status = @status WHERE Id = @id";
+<<<<<<< HEAD
 
+=======
+>>>>>>> d57a948fa8f43d42efa8eba40f660900595a991a
         // ДОБАВИТЬ В КОНСТАНТЫ:
         public const string stringSelectDiscount = "SELECT * FROM Discount";
         public const string stringInsertDiscount = "INSERT INTO Discount (Code, Type, Value, ValidFrom, ValidTo, IsActive, Description) VALUES (@code, @type, @value, @validFrom, @validTo, @isActive, @description)";
         public const string stringDeleteDiscount = "DELETE FROM Discount WHERE Id = @id";
         public const string stringEditDiscount = "UPDATE Discount SET Code = @code, Type = @type, Value = @value, ValidFrom = @validFrom, ValidTo = @validTo, IsActive = @isActive, Description = @description WHERE Id = @id";
+<<<<<<< HEAD
 
+=======
+>>>>>>> d57a948fa8f43d42efa8eba40f660900595a991a
         //+CREATE TABLES
         #region CREATE
         public static void CreateTableCashier()
@@ -187,8 +193,11 @@ namespace Ski_equipment_rental_accounting_system
                     connection.Close();
             }
         }
+<<<<<<< HEAD
 
         // ДОБАВИТЬ МЕТОД СОЗДАНИЯ ТАБЛИЦЫ:
+=======
+>>>>>>> d57a948fa8f43d42efa8eba40f660900595a991a
         public static void CreateTableDiscount()
         {
             SqliteConnection connection = null;
@@ -224,6 +233,10 @@ namespace Ski_equipment_rental_accounting_system
                     connection.Close();
             }
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> d57a948fa8f43d42efa8eba40f660900595a991a
         #endregion
 
         //+SELECT 
@@ -1168,10 +1181,17 @@ namespace Ski_equipment_rental_accounting_system
             CreateTableClient();
             CreateTableRental();
             CreateTableEquipment();
+<<<<<<< HEAD
             CreateTableDiscount(); // ДОБАВИТЬ ЭТУ СТРОКУ
+=======
+            CreateTableDiscount();
+>>>>>>> d57a948fa8f43d42efa8eba40f660900595a991a
         }
 
         #region НОВЫЕ МЕТОДЫ ДЛЯ РАБОТЫ С ОБЪЕКТАМИ
+
+
+
         // Метод 1: Добавление клиента через объект Client
         public static void InsertClient(Client client)
         {
@@ -1464,7 +1484,11 @@ namespace Ski_equipment_rental_accounting_system
         #endregion
 
 
+<<<<<<< HEAD
         // ДОБАВИТЬ CRUD ДЛЯ DISCOUNT:
+=======
+        #region + Методы для скидок
+>>>>>>> d57a948fa8f43d42efa8eba40f660900595a991a
         public static DataTable SelectTableDiscount()
         {
             DataTable table = new DataTable();
@@ -1608,5 +1632,10 @@ namespace Ski_equipment_rental_accounting_system
                     connection.Close();
             }
         }
+<<<<<<< HEAD
+=======
+
+        #endregion
+>>>>>>> d57a948fa8f43d42efa8eba40f660900595a991a
     }
 }

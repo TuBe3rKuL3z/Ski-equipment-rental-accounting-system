@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ﻿using System;
+=======
+﻿﻿using System;
+>>>>>>> d57a948fa8f43d42efa8eba40f660900595a991a
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 

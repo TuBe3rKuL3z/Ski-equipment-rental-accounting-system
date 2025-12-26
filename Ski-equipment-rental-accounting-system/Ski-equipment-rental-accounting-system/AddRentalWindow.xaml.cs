@@ -26,7 +26,11 @@ namespace Ski_equipment_rental_accounting_system
             {
                 InitializeComponent();
 
+<<<<<<< HEAD
                 // Инициализация DatePickers ДО загрузки данных
+=======
+                // Инициализация DatePickers
+>>>>>>> d57a948fa8f43d42efa8eba40f660900595a991a
                 dpStartDate.SelectedDate = DateTime.Now;
                 dpEndDate.SelectedDate = DateTime.Now.AddDays(1);
 
@@ -48,14 +52,21 @@ namespace Ski_equipment_rental_accounting_system
             }
             catch (Exception ex)
             {
+<<<<<<< HEAD
                 MessageBox.Show($"Ошибка при создании окна: {ex.Message}",
+=======
+                MessageBox.Show($"Ошибка при создании окна: {ex.Message}\n{ex.StackTrace}",
+>>>>>>> d57a948fa8f43d42efa8eba40f660900595a991a
                               "Критическая ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 this.DialogResult = false;
                 this.Close();
             }
         }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> d57a948fa8f43d42efa8eba40f660900595a991a
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             // Устанавливаем обработчики для сенсорного взаимодействия
@@ -770,12 +781,20 @@ namespace Ski_equipment_rental_accounting_system
                     return false;
                 }
 
+<<<<<<< HEAD
                 // ИСПРАВЛЕННЫЙ SQL-ЗАПРОС с правильными названиями столбцов
                 string sql = @"INSERT INTO Rental 
                      (ClientId, EquipmentId, StartDate, EndDate, TotalPrice, Status, 
                       PaymentStatus, PaymentMethod, DiscountCode, DiscountAmount) 
                      VALUES (@clientId, @equipmentId, @startDate, @endDate, @totalPrice, @status,
                              @paymentStatus, @paymentMethod, @discountCode, @discountAmount)";
+=======
+                string sql = @"INSERT INTO Rental 
+                             (ClientId, EquipmentId, StartDate, EndDate, TotalPrice, Status, 
+                              PaymentStatus, PaymentMethod, DiscountCode, DiscountAmount) 
+                             VALUES (@clientId, @equipmentId, @startDate, @endDate, @totalPrice, @status,
+                                     @paymentStatus, @paymentMethod, @discountCode, @discountAmount)";
+>>>>>>> d57a948fa8f43d42efa8eba40f660900595a991a
 
                 command = new SqliteCommand(sql, connection);
 
@@ -787,8 +806,12 @@ namespace Ski_equipment_rental_accounting_system
                 command.Parameters.AddWithValue("@status", (int)rental.Status);
                 command.Parameters.AddWithValue("@paymentStatus", (int)rental.PaymentStatus);
                 command.Parameters.AddWithValue("@paymentMethod", (int)rental.PaymentMethod);
+<<<<<<< HEAD
                 command.Parameters.AddWithValue("@discountCode",
                     string.IsNullOrEmpty(rental.DiscountCode) ? (object)DBNull.Value : rental.DiscountCode);
+=======
+                command.Parameters.AddWithValue("@discountCode", rental.DiscountCode ?? (object)DBNull.Value);
+>>>>>>> d57a948fa8f43d42efa8eba40f660900595a991a
                 command.Parameters.AddWithValue("@discountAmount", rental.DiscountAmount);
 
                 command.ExecuteNonQuery();
@@ -819,7 +842,10 @@ namespace Ski_equipment_rental_accounting_system
             }
         }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> d57a948fa8f43d42efa8eba40f660900595a991a
         private bool UpdateEquipmentStatus(int equipmentId, EquipmentStatus status)
         {
             SqliteConnection connection = null;
@@ -879,4 +905,8 @@ namespace Ski_equipment_rental_accounting_system
             }
         }
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> d57a948fa8f43d42efa8eba40f660900595a991a

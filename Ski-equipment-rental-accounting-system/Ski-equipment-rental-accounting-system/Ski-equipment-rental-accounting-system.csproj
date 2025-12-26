@@ -152,7 +152,10 @@
       <DependentUpon>AddRentalWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Cashier.cs" />
+<<<<<<< HEAD
     <Compile Include="DatabaseUpdater.cs" />
+=======
+>>>>>>> d57a948fa8f43d42efa8eba40f660900595a991a
     <Compile Include="Discount.cs" />
     <Compile Include="Rental.cs" />
     <Page Include="AddClientWindow.xaml">
